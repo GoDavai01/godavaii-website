@@ -1,0 +1,173 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Keep dark variant helper */
+@custom-variant dark (&:is(.dark *));
+
+/* Tailwind v4 custom tokens */
+@theme inline {
+  /* === BRAND (GoDavaii) === */
+  --color-brand-50:  #ecf7f3;
+  --color-brand-100: #d9efe7;
+  --color-brand-200: #b9e0d3;
+  --color-brand-300: #8fccb8;
+  --color-brand-400: #63b79e;
+  --color-brand-500: #3aa285;
+  --color-brand-600: #1f8870;
+  --color-brand-700: #156b56; /* main */
+  --color-brand-800: #115744;
+  --color-brand-900: #0f5b46; /* app bar / hero */
+
+  /* map Tailwind tokens -> CSS vars used by shadcn/ui etc */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* Sidebar tokens (if you use them) */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radii */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* === LIGHT THEME VALUES (GoDavaii) === */
+:root {
+  --radius: 0.875rem;
+
+  /* Base surfaces */
+  --background: var(--color-brand-50);
+  --foreground: oklch(0.20 0 0); /* near black */
+
+  --card: #ffffff;
+  --card-foreground: oklch(0.20 0 0);
+  --popover: #ffffff;
+  --popover-foreground: oklch(0.20 0 0);
+
+  /* Brand mapping */
+  --primary: var(--color-brand-700);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--color-brand-100);
+  --secondary-foreground: var(--color-brand-800);
+
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.46 0 0);
+
+  --accent: var(--color-brand-50);
+  --accent-foreground: var(--color-brand-800);
+
+  --destructive: oklch(0.62 0.21 25);
+
+  --border: oklch(0.90 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: var(--color-brand-400);
+
+  /* Charts (unused = safe defaults) */
+  --chart-1: var(--color-brand-700);
+  --chart-2: #3b82f6;
+  --chart-3: #f59e0b;
+  --chart-4: #10b981;
+  --chart-5: #8b5cf6;
+
+  /* Sidebar (optional) */
+  --sidebar: #ffffff;
+  --sidebar-foreground: oklch(0.20 0 0);
+  --sidebar-primary: var(--color-brand-700);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--color-brand-50);
+  --sidebar-accent-foreground: var(--color-brand-800);
+  --sidebar-border: oklch(0.90 0 0);
+  --sidebar-ring: var(--color-brand-400);
+}
+
+/* === DARK THEME (optional) === */
+.dark {
+  --background: oklch(0.20 0 0);
+  --foreground: oklch(0.98 0 0);
+
+  --card: oklch(0.26 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.26 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+
+  --primary: var(--color-brand-600);
+  --primary-foreground: #ffffff;
+
+  --secondary: oklch(0.28 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+
+  --muted: oklch(0.28 0 0);
+  --muted-foreground: oklch(0.80 0 0);
+
+  --accent: oklch(0.28 0 0);
+  --accent-foreground: oklch(0.98 0 0);
+
+  --destructive: oklch(0.62 0.21 25);
+
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: var(--color-brand-400);
+
+  --chart-1: var(--color-brand-500);
+  --chart-2: #60a5fa;
+  --chart-3: #fbbf24;
+  --chart-4: #34d399;
+  --chart-5: #a78bfa;
+
+  --sidebar: oklch(0.22 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: var(--color-brand-600);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: oklch(0.26 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: var(--color-brand-400);
+}
+
+/* Base layer */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Small helpers matching your app look */
+.btn-pill {
+  @apply rounded-[9999px] shadow-lg;
+}
+.card-soft {
+  @apply bg-white/90 border border-border shadow-sm rounded-2xl;
+}
