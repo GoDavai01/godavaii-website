@@ -11,6 +11,7 @@ import Script from "next/script";
 import LOGO from "../../public/LOGO.png";
 import MEDICINES from "../../public/MEDICINES.png";
 import HOME from "../../public/HOME.png";
+import Link from "next/link";
 
 const screenshots = [
   { src: LOGO, alt: "Logo" },
@@ -512,16 +513,17 @@ export default function HomeClient() {
         <div className="mx-auto max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-brand-800 mb-6">We’re launching in…</h2>
           <div className="flex flex-wrap gap-3">
-            {cities.map((c) => (
-              <a
-                key={c.slug}
-                href={`/medicine-delivery/${c.slug}`}
-                className="px-4 py-2 rounded-full bg-white shadow text-brand-800 border border-brand-100 hover:bg-brand-50"
-              >
-                {c.name}
-              </a>
-            ))}
-          </div>
+  {cities.map((c) => (
+    <Link
+      key={c.slug}
+      href={`/medicine-delivery/${c.slug}`}
+      className="px-4 py-2 rounded-full bg-white shadow text-brand-800 border border-brand-100 hover:bg-brand-50"
+    >
+      {c.name}
+    </Link>
+  ))}
+</div>
+
           <div className="mt-8">
             <a href="#contact">
               <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white">Request your city</Button>
