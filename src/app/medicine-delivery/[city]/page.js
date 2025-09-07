@@ -1,26 +1,21 @@
 // app/medicine-delivery/[city]/page.js
 import { notFound } from "next/navigation";
 
-// These are the cities we will pre-render at build time.
-// Keep this list in sync with app/sitemap.js
+// Keep in sync with sitemap.js
 const featuredCities = ["noida", "delhi", "ghaziabad", "gurugram", "lucknow", "aligarh"];
 
-// Allow other slugs to render at runtime if you want.
-// If you want to 404 unknown cities, uncomment the guard below.
 export const dynamicParams = true;
 
-// (Optional) revalidate static HTML daily
-export const revalidate = 60 * 60 * 24;
+// Use a LITERAL for Next.js static analyzer (86400s = 24h)
+export const revalidate = 86400;
 
 const titleize = (s) =>
   String(s || "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-// Pre-render the featured cities
 export function generateStaticParams() {
   return featuredCities.map((city) => ({ city }));
 }
 
-// Per-city SEO metadata
 export function generateMetadata({ params }) {
   const city = params.city?.toLowerCase();
   const cityName = titleize(city);
@@ -33,17 +28,8 @@ export function generateMetadata({ params }) {
     title,
     description,
     alternates: { canonical },
-    openGraph: {
-      title,
-      description,
-      url: canonical,
-      type: "website",
-    },
-    twitter: {
-      card: "summary",
-      title,
-      description,
-    },
+    openGraph: { title, description, url: canonical, type: "website" },
+    twitter: { card: "summary", title, description },
   };
 }
 
@@ -51,7 +37,7 @@ export default function CityPage({ params }) {
   const city = params.city?.toLowerCase();
   const cityName = titleize(city);
 
-  // Optional strict guard: only allow featured cities
+  // Optional strict guard
   // if (!featuredCities.includes(city)) return notFound();
 
   const ldService = {
@@ -59,17 +45,8 @@ export default function CityPage({ params }) {
     "@type": "Service",
     serviceType: "Medicine Delivery",
     name: `GoDavaii – Medicine Delivery in ${cityName}`,
-    areaServed: {
-      "@type": "City",
-      name: cityName,
-      address: { "@type": "PostalAddress", addressCountry: "IN" },
-    },
-    provider: {
-      "@type": "Organization",
-      name: "GoDavaii",
-      url: "https://www.godavaii.com",
-      logo: "https://www.godavaii.com/LOGO.png",
-    },
+    areaServed: { "@type": "City", name: cityName, address: { "@type": "PostalAddress", addressCountry: "IN" } },
+    provider: { "@type": "Organization", name: "GoDavaii", url: "https://www.godavaii.com", logo: "https://www.godavaii.com/LOGO.png" },
     url: `https://www.godavaii.com/medicine-delivery/${city}`,
   };
 
@@ -80,9 +57,8 @@ export default function CityPage({ params }) {
       </h1>
 
       <p className="text-neutral-700 mb-6">
-        GoDavaii connects you to verified local pharmacies in {cityName}. Order OTC
-        items or upload your prescription; Schedule H/H1 medicines are dispensed only
-        against a valid Rx. Live tracking, secure payments, 24x7 support.
+        GoDavaii connects you to verified local pharmacies in {cityName}. Order OTC items or upload your prescription;
+        Schedule H/H1 medicines are dispensed only against a valid Rx. Live tracking, secure payments, 24x7 support.
       </p>
 
       <ul className="list-disc list-inside text-neutral-800 space-y-2 mb-8">
@@ -91,20 +67,11 @@ export default function CityPage({ params }) {
         <li>Pharmacist-checked orders and safe substitutions</li>
       </ul>
 
-      <a href="/#download" className="underline text-brand-700 font-semibold">
-        Download the app
-      </a>{" "}
+      <a href="/#download" className="underline text-brand-700 font-semibold">Download the app</a>{" "}
       or{" "}
-      <a href="/#partner-pharmacy" className="underline text-brand-700 font-semibold">
-        become a pharmacy partner
-      </a>
-      .
+      <a href="/#partner-pharmacy" className="underline text-brand-700 font-semibold">become a pharmacy partner</a>.
 
-      {/* JSON-LD for rich results */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldService) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldService) }} />
     </main>
   );
 }
