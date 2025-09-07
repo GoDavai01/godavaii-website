@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
-import { ShoppingCart } from "lucide-react"; // modern cart icon
+import { ShoppingCart } from "lucide-react";
 import Script from "next/script";
 
 import LOGO from "../../public/LOGO.png";
@@ -18,7 +18,6 @@ const screenshots = [
   { src: HOME, alt: "Home" },
 ];
 
-// testimonials (carousel)
 const testimonials = [
   { q: "Got my dad’s meds in 18 minutes. Superb!", a: "— Priya S." },
   { q: "Pharmacist suggested a safer alternative. 10/10.", a: "— Kiran M." },
@@ -28,22 +27,27 @@ const testimonials = [
   { q: "Easy Rx upload. Smooth experience.", a: "— Zainab H." },
 ];
 
+const cities = [
+  { name: "Aligarh", slug: "aligarh" },
+  { name: "Noida", slug: "noida" },
+  { name: "Ghaziabad", slug: "ghaziabad" },
+  { name: "Lucknow", slug: "lucknow" },
+  { name: "Delhi", slug: "delhi" },
+  { name: "Gurugram", slug: "gurugram" },
+];
+
 export default function HomeClient() {
   const [screenshot, setScreenshot] = useState(0);
   const [navOpen, setNavOpen] = useState(false);
   const [year, setYear] = useState("");
   const [touchStartX, setTouchStartX] = useState(null);
-
-  // testimonials autoplay
   const [slide, setSlide] = useState(0);
   const autoplayRef = useRef(null);
 
   useEffect(() => setYear(new Date().getFullYear().toString()), []);
   useEffect(() => {
     document.body.style.overflow = navOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [navOpen]);
 
   useEffect(() => {
@@ -153,14 +157,12 @@ export default function HomeClient() {
             Get Medicines Delivered <br className="md:hidden" /> Under 30 Minutes
           </h1>
 
-          {/* visible subtext (BOLDER) */}
           <p className="text-lg md:text-2xl text-neutral-700 mb-10 max-w-2xl text-center md:text-left mx-auto font-medium md:font-semibold">
             India’s fastest hyperlocal medicine delivery.
             <br />
             Real-time tracking. Trusted local pharmacies. <span className="font-semibold text-brand-700">24x7</span> support.
           </p>
 
-          {/* CTAs with identical sizing */}
           <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
             <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white text-lg px-8 py-3 w-full md:w-auto min-w-[240px] md:min-w-[260px]">
               Download App
@@ -264,7 +266,7 @@ export default function HomeClient() {
       <section id="trust" className="py-20 px-4 md:px-0 bg-[#0f5b46]/5">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-brand-800 mb-6">Trust & Compliance</h2>
-          <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
             <Card className="rounded-2xl border-0 shadow-md">
               <CardContent className="p-6">
                 <div className="text-xl font-bold text-brand-700 mb-2">Prescription Policy</div>
@@ -290,7 +292,7 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* SCREENSHOTS CAROUSEL (fixed for mobile & laptop) */}
+      {/* SCREENSHOTS CAROUSEL */}
       <section id="app-preview" className="py-24 bg-gradient-to-tl from-brand-50 to-white px-4 md:px-0">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-neutral-900">
           See GoDavaii in Action
@@ -306,7 +308,6 @@ export default function HomeClient() {
               ◀
             </Button>
 
-            {/* Minimal-bezel, aspect-ratio matched phone frame */}
             <div
               className="relative bg-white rounded-[1.25rem] md:rounded-[1.5rem] border border-brand-200 shadow-2xl w-[78vw] max-w-[360px] md:max-w-[420px] p-[3px] md:p-2 overflow-hidden"
               style={{ aspectRatio: 360 / 740 }}
@@ -415,7 +416,6 @@ export default function HomeClient() {
             Flexible hours, guaranteed slots, and per-order incentives. Deliver health, earn more.
           </p>
 
-          {/* aligned cards (3-up) */}
           <div className="grid md:grid-cols-3 gap-4">
             <Card className="rounded-2xl border-0 shadow-md">
               <CardContent className="p-5">
@@ -461,62 +461,65 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* TESTIMONIALS – autoplay carousel (readable on mobile) */}
+      {/* TESTIMONIALS – autoplay carousel */}
       <section id="testimonials" className="py-20 px-4 md:px-0 bg-white">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-center text-brand-800 mb-10">
             Loved by customers
           </h2>
 
-        <div className="relative overflow-hidden max-w-[640px] sm:max-w-3xl mx-auto px-2">
-          <div
-            className="flex transition-transform duration-500 ease-out"
-            style={{ transform: `translateX(-${slide * 100}%)`, width: `${testimonials.length * 100}%` }}
-            onMouseEnter={() => clearInterval(autoplayRef.current)}
-            onMouseLeave={() => {
-              autoplayRef.current = setInterval(() => {
-                setSlide((s) => (s + 1) % testimonials.length);
-              }, 3500);
-            }}
-          >
-            {testimonials.map((t, i) => (
-              <div key={i} className="basis-full shrink-0 px-2">
-                <Card className="rounded-2xl border-0 shadow-md h-full">
-                  <CardContent className="p-5 sm:p-6 min-h-[140px] flex flex-col justify-center">
-                    <p className="text-base sm:text-lg md:text-xl text-neutral-800 mb-3 leading-relaxed">
-                      “{t.q}”
-                    </p>
-                    <p className="text-sm font-semibold text-neutral-600">{t.a}</p>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
+          <div className="relative overflow-hidden max-w-[640px] sm:max-w-3xl mx-auto px-2">
+            <div
+              className="flex transition-transform duration-500 ease-out"
+              style={{ transform: `translateX(-${slide * 100}%)`, width: `${testimonials.length * 100}%` }}
+              onMouseEnter={() => clearInterval(autoplayRef.current)}
+              onMouseLeave={() => {
+                autoplayRef.current = setInterval(() => {
+                  setSlide((s) => (s + 1) % testimonials.length);
+                }, 3500);
+              }}
+            >
+              {testimonials.map((t, i) => (
+                <div key={i} className="basis-full shrink-0 px-2">
+                  <Card className="rounded-2xl border-0 shadow-md h-full">
+                    <CardContent className="p-5 sm:p-6 min-h-[140px] flex flex-col justify-center">
+                      <p className="text-base sm:text-lg md:text-xl text-neutral-800 mb-3 leading-relaxed">
+                        “{t.q}”
+                      </p>
+                      <p className="text-sm font-semibold text-neutral-600">{t.a}</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
+            </div>
 
-          {/* dots */}
-          <div className="flex justify-center gap-2 mt-6">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                className={`h-2.5 w-2.5 rounded-full ${i === slide ? "bg-brand-700" : "bg-neutral-300"}`}
-                onClick={() => setSlide(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
-              />
-            ))}
+            <div className="flex justify-center gap-2 mt-6">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  className={`h-2.5 w-2.5 rounded-full ${i === slide ? "bg-brand-700" : "bg-neutral-300"}`}
+                  onClick={() => setSlide(i)}
+                  aria-label={`Go to testimonial ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
         </div>
       </section>
 
-      {/* COVERAGE / CITIES */}
+      {/* COVERAGE / CITIES (now real links) */}
       <section id="coverage" className="py-20 px-4 md:px-0 bg-[#0f5b46]/5">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-extrabold text-brand-800 mb-6">We’re launching in…</h2>
           <div className="flex flex-wrap gap-3">
-            {["Aligarh", "Noida", "Ghaziabad", "Lucknow", "Delhi", "Gurugram"].map((city) => (
-              <span key={city} className="px-4 py-2 rounded-full bg-white shadow text-brand-800 border border-brand-100">
-                {city}
-              </span>
+            {cities.map((c) => (
+              <a
+                key={c.slug}
+                href={`/medicine-delivery/${c.slug}`}
+                className="px-4 py-2 rounded-full bg-white shadow text-brand-800 border border-brand-100 hover:bg-brand-50"
+              >
+                {c.name}
+              </a>
             ))}
           </div>
           <div className="mt-8">
@@ -554,10 +557,7 @@ export default function HomeClient() {
       </section>
 
       {/* ABOUT */}
-      <section
-        id="about"
-        className="py-16 px-4 md:px-0 max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-6xl mx-auto flex flex-col items-center md:items-start"
-      >
+      <section id="about" className="py-16 px-4 md:px-0 max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-6xl mx-auto flex flex-col items-center md:items-start">
         <h2 className="text-3xl md:text-4xl font-bold mb-3 text-neutral-900 text-center md:text-left w-full">
           About GoDavaii
         </h2>
@@ -587,7 +587,6 @@ export default function HomeClient() {
           </h2>
 
           <div className="space-y-4">
-            {/* Customers */}
             <details className="group rounded-2xl bg-white shadow-md p-5">
               <summary className="cursor-pointer list-none font-semibold text-gray-900">
                 Do I need a prescription?
@@ -606,7 +605,6 @@ export default function HomeClient() {
               </p>
             </details>
 
-            {/* Pharmacies */}
             <details className="group rounded-2xl bg-white shadow-md p-5">
               <summary className="cursor-pointer list-none font-semibold text-gray-900">
                 What are the charges for pharmacies?
@@ -616,7 +614,6 @@ export default function HomeClient() {
               </p>
             </details>
 
-            {/* Riders */}
             <details className="group rounded-2xl bg-white shadow-md p-5">
               <summary className="cursor-pointer list-none font-semibold text-gray-900">
                 How are delivery partners paid?

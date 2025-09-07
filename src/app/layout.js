@@ -32,7 +32,12 @@ export const metadata = {
     "prescription delivery",
     "meds near me",
     "hyperlocal delivery",
+    "fast medicine delivery",
     "24x7 pharmacy",
+    "Noida medicine delivery",
+    "Delhi medicine delivery",
+    "Ghaziabad medicine delivery",
+    "Gurugram medicine delivery",
     "India",
   ],
   robots: {
@@ -54,7 +59,7 @@ export const metadata = {
     title: "GoDavaii – Medicine delivery in under 30 minutes",
     description:
       "Order from verified local pharmacies. Real-time tracking. 24x7 support. GoDavaii.",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "GoDavaii" }],
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "GoDavaii – Ultra-fast medicine delivery" }],
     locale: "en_IN",
   },
   twitter: {
@@ -71,8 +76,9 @@ export const metadata = {
     apple: "/apple-touch-icon.png",
   },
   verification: {
-    // google: "YOUR_GSC_VERIFICATION_TOKEN",
+    google: "PulJhXq93DCm0lPBjIyQtHBq-8hHHMOIjHxWL9wgi4k",
   },
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }) {
@@ -120,9 +126,35 @@ export default function RootLayout({ children }) {
               name: "GoDavaii",
               potentialAction: {
                 "@type": "SearchAction",
+                // keeping homepage target so you don't need to add a /search page right now
                 target: `${SITE_URL}/?q={search_term_string}`,
                 "query-input": "required name=search_term_string",
               },
+            }),
+          }}
+        />
+
+        {/* Structured data – LocalBusiness (Pharmacy) */}
+        <Script
+          id="ld-local"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Pharmacy",
+              name: "GoDavaii",
+              image: `${SITE_URL}${OG_IMAGE}`,
+              url: SITE_URL,
+              telephone: "+91-0000000000",
+              areaServed: ["Noida","Delhi","Ghaziabad","Gurugram","Lucknow"],
+              openingHoursSpecification: [{
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+                "opens": "00:00",
+                "closes": "23:59"
+              }],
+              priceRange: "₹₹"
             }),
           }}
         />
