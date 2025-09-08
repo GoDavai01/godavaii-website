@@ -69,7 +69,7 @@ export default function CityPage({ params }) {
 
       <a href="/#download" className="underline text-brand-700 font-semibold">Download the app</a>{" "}
       or{" "}
-      <a href="/#partner-pharmacy" className="underline text-brand-700 font-semibold">become a pharmacy partner</a>.
+      <a href="/#partner-pharmacy" className="underline text-brand-700 font-semibold">Become a pharmacy partner</a>.
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldService) }} />
     </main>
