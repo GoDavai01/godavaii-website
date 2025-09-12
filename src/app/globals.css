@@ -4,6 +4,15 @@
 /* Keep dark variant helper */
 @custom-variant dark (&:is(.dark *));
 
+/* soft glow utility (optional use: add class `shadow-glow`) */
+.shadow-glow {
+  box-shadow: 0 20px 60px rgba(16, 94, 73, .18);
+}
+
+/* lucide icon fallback class (used in coverage ribbon) */
+.i-lucide-rocket::before { content: "🚀"; }
+
+
 /* Tailwind v4 custom tokens */
 @theme inline {
   /* === BRAND (GoDavaii) === */
