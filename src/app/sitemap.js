@@ -1,13 +1,9 @@
 // app/sitemap.js
-
 const base = "https://www.godavaii.com";
-
-// Keep this list in sync with the cities you pre-render below.
-const cities = ["noida", "delhi", "ghaziabad", "gurugram", "lucknow", "aligarh"];
+const cities = ["noida"];                       // ← only Noida
 
 export default function sitemap() {
   const lastModified = new Date();
-
   return [
     { url: `${base}/`, lastModified, changeFrequency: "weekly", priority: 1 },
     ...cities.map((c) => ({

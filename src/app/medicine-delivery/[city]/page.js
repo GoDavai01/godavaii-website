@@ -1,12 +1,8 @@
 // app/medicine-delivery/[city]/page.js
 import { notFound } from "next/navigation";
 
-// Keep in sync with sitemap.js
-const featuredCities = ["noida", "delhi", "ghaziabad", "gurugram", "lucknow", "aligarh"];
-
+const featuredCities = ["noida"];               // ← only Noida
 export const dynamicParams = true;
-
-// Use a LITERAL for Next.js static analyzer (86400s = 24h)
 export const revalidate = 86400;
 
 const titleize = (s) =>
@@ -18,11 +14,14 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }) {
   const city = params.city?.toLowerCase();
+  if (!featuredCities.includes(city)) notFound();       // ← strict guard
+
   const cityName = titleize(city);
   const canonical = `/medicine-delivery/${city}`;
 
-  const title = `Medicine Delivery in ${cityName} (Under 30 Minutes) | GoDavaii`;
-  const description = `Order authentic medicines fast in ${cityName}. Hyperlocal delivery in under 30 minutes from licensed pharmacies with live tracking and 24x7 support.`;
+  // Pre-launch (onboarding) copy for Noida
+  const title = `GoDavaii in ${cityName} | Partner Pharmacy Onboarding`;
+  const description = `GoDavaii is building its hyperlocal medicine delivery network in ${cityName}. We are currently onboarding licensed partner pharmacies to prepare for consumer launch.`;
 
   return {
     title,
@@ -35,10 +34,9 @@ export function generateMetadata({ params }) {
 
 export default function CityPage({ params }) {
   const city = params.city?.toLowerCase();
-  const cityName = titleize(city);
+  if (!featuredCities.includes(city)) notFound();       // ← strict guard
 
-  // Optional strict guard
-  // if (!featuredCities.includes(city)) return notFound();
+  const cityName = titleize(city);
 
   const ldService = {
     "@context": "https://schema.org",
@@ -53,23 +51,26 @@ export default function CityPage({ params }) {
   return (
     <main className="max-w-3xl mx-auto px-4 py-16">
       <h1 className="text-3xl md:text-4xl font-extrabold text-brand-800 mb-4">
-        Medicine Delivery in {cityName} – Under 30 Minutes
+        GoDavaii – Medicine Delivery in {cityName}
       </h1>
 
+      <div className="mb-4 rounded-xl px-4 py-3 bg-brand-50 border border-brand-200 text-brand-900">
+        <b>Status:</b> We are <b>currently onboarding licensed partner pharmacies</b> in {cityName} to
+        prepare our hyperlocal network. Consumer services will begin after the partner network is ready.
+      </div>
+
       <p className="text-neutral-700 mb-6">
-        GoDavaii connects you to verified local pharmacies in {cityName}. Order OTC items or upload your prescription;
-        Schedule H/H1 medicines are dispensed only against a valid Rx. Live tracking, secure payments, 24x7 support.
+        <b>Pharmacy owners in {cityName}</b>: join our partner network now for early access, zero listing
+        fees during launch, and priority placement when we go live.
       </p>
 
-      <ul className="list-disc list-inside text-neutral-800 space-y-2 mb-8">
-        <li>Authentic medicines from licensed partners</li>
-        <li>Average delivery time under 30 minutes</li>
-        <li>Pharmacist-checked orders and safe substitutions</li>
-      </ul>
-
-      <a href="/#download" className="underline text-brand-700 font-semibold">Download the app</a>{" "}
+      <a href="/#partner-pharmacy" className="underline text-brand-700 font-semibold">
+        Register your pharmacy
+      </a>{" "}
       or{" "}
-      <a href="/#partner-pharmacy" className="underline text-brand-700 font-semibold">Become a pharmacy partner</a>.
+      <a href="/#about" className="underline text-brand-700 font-semibold">
+        learn more about GoDavaii
+      </a>.
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ldService) }} />
     </main>

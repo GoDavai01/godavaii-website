@@ -8,8 +8,8 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 /** Production site URL */
 const SITE_URL = "https://www.godavaii.com";
-/** Use an image that actually exists in /public (you don't have /og-image.png) */
-const OG_IMAGE = "/icon-512.png";
+/** Use an image that actually exists in /public */
+const OG_IMAGE = "/og-cover.jpg";
 
 export const viewport = {
   themeColor: "#156b56",
@@ -24,15 +24,8 @@ export const metadata = {
     default: "GoDavaii — Fastest Medicine Delivery (Under 30 Minutes)",
     template: "%s | GoDavaii",
   },
-  /**
-   * Keep this ~150–160c. This is what Google will often use in the snippet.
-   */
   description:
     "Authentic medicines delivered in under 30 minutes from licensed local pharmacies. Upload prescription, live tracking, secure payments, 24×7 support.",
-  /**
-   * Note: meta keywords are not a Google ranking factor, but harmless for other engines.
-   * Focus on branded + service + geo terms.
-   */
   keywords: [
     "GoDavaii",
     "medicine delivery",
@@ -41,10 +34,6 @@ export const metadata = {
     "fast medicine delivery",
     "24x7 pharmacy",
     "Noida medicine delivery",
-    "Delhi medicine delivery",
-    "Ghaziabad medicine delivery",
-    "Gurugram medicine delivery",
-    "Lucknow medicine delivery",
     "medicines online near me",
   ],
   robots: {
@@ -77,9 +66,6 @@ export const metadata = {
     images: [OG_IMAGE],
   },
   category: "Health",
-  /**
-   * Make all common icon sizes explicit so browsers and Google can pick them up quickly.
-   */
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -88,11 +74,9 @@ export const metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
-  /** Your TXT verification code is fine to keep here */
   verification: {
     google: "PulJhXq93DCm0lPBjIyQtHBq-8hHHMOIjHxWL9wgi4k",
   },
-  /** Matches your /public/manifest.webmanifest */
   manifest: "/manifest.webmanifest",
 };
 
@@ -115,10 +99,7 @@ export default function RootLayout({ children }) {
               url: SITE_URL,
               logo: `${SITE_URL}${OG_IMAGE}`,
               sameAs: [
-                // Add when available:
-                // "https://www.instagram.com/yourhandle",
-                // "https://www.facebook.com/yourpage",
-                // "https://www.linkedin.com/company/yourcompany"
+                // Add socials when ready
               ],
               contactPoint: [
                 {
@@ -153,7 +134,7 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Optional: Local business signals (keep only if accurate for you) */}
+        {/* Local business signals (Noida only) */}
         <Script
           id="ld-local"
           type="application/ld+json"
@@ -161,27 +142,11 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Pharmacy",
+              "@type": "Organization",
               name: "GoDavaii",
               image: `${SITE_URL}${OG_IMAGE}`,
               url: SITE_URL,
-              areaServed: ["Noida", "Delhi", "Ghaziabad", "Gurugram", "Lucknow"],
-              openingHoursSpecification: [
-                {
-                  "@type": "OpeningHoursSpecification",
-                  dayOfWeek: [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                    "Sunday",
-                  ],
-                  opens: "00:00",
-                  closes: "23:59",
-                },
-              ],
+              areaServed: ["Noida"],
               priceRange: "₹₹",
             }),
           }}

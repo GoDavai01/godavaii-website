@@ -28,14 +28,7 @@ const testimonials = [
   { q: "Easy Rx upload. Smooth experience.", a: "— Zainab H." },
 ];
 
-const cities = [
-  { name: "Aligarh", slug: "aligarh" },
-  { name: "Noida", slug: "noida" },
-  { name: "Ghaziabad", slug: "ghaziabad" },
-  { name: "Lucknow", slug: "lucknow" },
-  { name: "Delhi", slug: "delhi" },
-  { name: "Gurugram", slug: "gurugram" },
-];
+const cities = [{ name: "Noida", slug: "noida" }];
 
 export default function HomeClient() {
   const [screenshot, setScreenshot] = useState(0);
