@@ -1,7 +1,7 @@
 // app/medicine-delivery/[city]/page.js
 import { notFound } from "next/navigation";
 
-const featuredCities = ["noida"]; // only Noida
+const featuredCities = ["noida"];          // only Noida
 export const dynamicParams = true;
 export const revalidate = 86400;
 
@@ -59,7 +59,7 @@ export default function CityPage({ params }) {
 
   return (
     <main className="relative overflow-hidden">
-      {/* background flair (CSS-only) */}
+      {/* background flair */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(80%_60%_at_50%_-10%,rgba(21,107,86,.14),transparent_60%)]" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50/60 to-white" />
 
