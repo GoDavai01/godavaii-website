@@ -1,6 +1,5 @@
 // app/medicine-delivery/[city]/page.js
 import { notFound } from "next/navigation";
-import { motion } from "framer-motion";
 
 const featuredCities = ["noida"]; // only Noida
 export const dynamicParams = true;
@@ -60,7 +59,7 @@ export default function CityPage({ params }) {
 
   return (
     <main className="relative overflow-hidden">
-      {/* background flair */}
+      {/* background flair (CSS-only) */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(80%_60%_at_50%_-10%,rgba(21,107,86,.14),transparent_60%)]" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-brand-50/60 to-white" />
 
@@ -75,28 +74,16 @@ export default function CityPage({ params }) {
           </span>
         </div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-3xl md:text-5xl font-extrabold tracking-tight text-brand-900"
-        >
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-brand-900">
           GoDavaii – Medicine Delivery in {cityName}
-        </motion.h1>
+        </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, delay: 0.05 }}
-          className="mt-5 rounded-2xl border border-brand-200 bg-white/80 backdrop-blur p-5 shadow-sm"
-        >
+        <div className="mt-5 rounded-2xl border border-brand-200 bg-white/80 backdrop-blur p-5 shadow-sm">
           <p className="text-brand-900">
             <b>Status:</b> We are <b>currently onboarding licensed partner pharmacies</b> in {cityName} to
             prepare our hyperlocal network. Consumer services will begin after the partner network is ready.
           </p>
-        </motion.div>
+        </div>
 
         <p className="mt-6 text-neutral-700 max-w-2xl">
           <b>Pharmacy owners in {cityName}</b>: Join our partner network now for early access, zero listing fees during
@@ -128,22 +115,18 @@ export default function CityPage({ params }) {
             ["🔔 Live tracking", "Customer & partner notifications at every step"],
             ["⭐ Priority placement", "Founding partners get promoted badges at launch"],
           ].map(([title, sub], i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
               className="rounded-2xl border border-brand-100 bg-white/90 p-5 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="font-semibold text-brand-900">{title}</div>
               <div className="text-neutral-700 text-sm mt-1">{sub}</div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* ASSURANCE */}
+      {/* mini FAQ / assurance */}
       <section className="max-w-5xl mx-auto px-4 pb-24">
         <div className="rounded-3xl border border-brand-100 bg-brand-50/60 p-6 md:p-8">
           <h2 className="text-xl md:text-2xl font-bold text-brand-900 mb-4">What we promise</h2>
