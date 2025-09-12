@@ -6,9 +6,7 @@ import Script from "next/script";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-/** Production site URL */
 const SITE_URL = "https://www.godavaii.com";
-/** Use an image that actually exists in /public */
 const OG_IMAGE = "/og-cover.jpg";
 
 export const viewport = {
@@ -39,13 +37,7 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-snippet": -1,
-      "max-image-preview": "large",
-      "max-video-preview": -1,
-    },
+    googleBot: { index: true, follow: true },
   },
   alternates: { canonical: "/" },
   openGraph: {
@@ -61,8 +53,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "GoDavaii — Fastest Medicine Delivery (Under 30 Minutes)",
-    description:
-      "Authentic medicines delivered fast from licensed local pharmacies.",
+    description: "Authentic medicines delivered fast from licensed local pharmacies.",
     images: [OG_IMAGE],
   },
   category: "Health",
@@ -74,19 +65,25 @@ export const metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
-  verification: {
-    google: "PulJhXq93DCm0lPBjIyQtHBq-8hHHMOIjHxWL9wgi4k",
-  },
+  verification: { google: "PulJhXq93DCm0lPBjIyQtHBq-8hHHMOIjHxWL9wgi4k" },
   manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-white via-brand-50/40 to-white`}
+      >
+        {/* subtle animated background blobs */}
+        <div className="fixed inset-0 -z-10 overflow-hidden">
+          <div className="absolute -top-40 left-1/2 w-[80vw] h-[80vw] bg-emerald-200/30 blur-3xl rounded-full animate-pulse-slow -translate-x-1/2" />
+          <div className="absolute bottom-0 right-0 w-[60vw] h-[60vw] bg-emerald-300/20 blur-3xl rounded-full animate-pulse-slower" />
+        </div>
+
         {children}
 
-        {/* Organization schema */}
+        {/* Schemas */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -98,9 +95,6 @@ export default function RootLayout({ children }) {
               name: "GoDavaii",
               url: SITE_URL,
               logo: `${SITE_URL}${OG_IMAGE}`,
-              sameAs: [
-                // Add socials when ready
-              ],
               contactPoint: [
                 {
                   "@type": "ContactPoint",
@@ -114,7 +108,6 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Website schema + SearchAction */}
         <Script
           id="ld-website"
           type="application/ld+json"
@@ -134,7 +127,6 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* Local business signals (Noida only) */}
         <Script
           id="ld-local"
           type="application/ld+json"
