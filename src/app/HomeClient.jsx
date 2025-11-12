@@ -7,10 +7,6 @@ import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { ShoppingCart } from "lucide-react";
 import Script from "next/script";
-
-import LOGO from "../../public/LOGO.png";
-import MEDICINES from "../../public/MEDICINES.png";
-import HOME from "../../public/HOME.png";
 import Link from "next/link";
 
 // ---- LAUNCH METRICS (edit these when you have real numbers) ----
@@ -21,10 +17,11 @@ const LAUNCH_METRICS = {
   statusNote: "Pre-launch (Noida)"
 };
 
+// Use string paths from /public to avoid sharp requirement during build
 const screenshots = [
-  { src: LOGO, alt: "Logo" },
-  { src: MEDICINES, alt: "Medicines" },
-  { src: HOME, alt: "Home" },
+  { src: "/LOGO.png", alt: "Logo" },
+  { src: "/MEDICINES.png", alt: "Medicines" },
+  { src: "/HOME.png", alt: "Home" },
 ];
 
 const testimonials = [
@@ -538,77 +535,70 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* COVERAGE / CITIES (now real links) */}
-      <section
-  id="coverage"
-  className="relative py-24 px-4 md:px-0"
->
-  {/* soft gradient background */}
-  <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_-20%,rgba(21,107,86,.18),transparent_60%)]" />
-  <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white pointer-events-none" />
+      {/* COVERAGE / CITIES */}
+      <section id="coverage" className="relative py-24 px-4 md:px-0">
+        <div className="absolute inset-0 bg-[radial-gradient(80%_80%_at_50%_-20%,rgba(21,107,86,.18),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-50/70 to-white pointer-events-none" />
 
-  <div className="relative mx-auto max-w-5xl">
-    <div className="rounded-3xl border border-brand-100 bg-white/85 backdrop-blur shadow-[0_20px_60px_rgba(16,94,73,.15)] overflow-hidden">
-      {/* top ribbon */}
-      <div className="bg-brand-900 text-brand-50 py-3 px-6 text-center text-sm tracking-wide">
-        Building a pharmacy-first network with <span className="font-semibold">priority onboarding</span>
-      </div>
-
-      <div className="p-8 md:p-14">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 text-brand-800 border border-brand-200 px-3 py-1 text-xs font-semibold">
-            <span className="i-lucide-rocket" />
-            Phase 1
-          </span>
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 text-xs font-semibold">
-            Onboarding now
-          </span>
-        </div>
-
-        <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-brand-900 mb-4">
-          We’re launching in <span className="text-brand-700 underline decoration-brand-300/70">Noida</span>
-        </h2>
-        <p className="text-neutral-700 text-base md:text-lg max-w-2xl">
-          If you run a licensed pharmacy in Noida, join our founding cohort for zero listing fees during launch,
-          priority placement and fast payouts.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white border border-brand-200 text-brand-800 px-4 py-2 font-semibold shadow-sm">
-            Noida
-          </span>
-
-          <a href="#contact">
-            <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white shadow-lg px-6">
-              Request onboarding
-            </Button>
-          </a>
-
-          <a href="/medicine-delivery/noida" className="ml-1">
-            <Button variant="outline" className="btn-pill border-brand-300 text-brand-800">
-              Learn more
-            </Button>
-          </a>
-        </div>
-
-        {/* subtle perks row */}
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-neutral-700">
-          {[
-            ["⭐ Priority placement", "Founding partner badge at launch"],
-            ["⚡ Fast payouts", "Transparent GST invoices"],
-            ["🛡️ Compliance-first", "Valid Rx & licensed partners only"],
-          ].map(([title, sub], i) => (
-            <div key={i} className="rounded-2xl border border-brand-100 bg-brand-50/60 p-4">
-              <div className="font-semibold text-brand-900">{title}</div>
-              <div className="text-neutral-600">{sub}</div>
+        <div className="relative mx-auto max-w-5xl">
+          <div className="rounded-3xl border border-brand-100 bg-white/85 backdrop-blur shadow-[0_20px_60px_rgba(16,94,73,.15)] overflow-hidden">
+            <div className="bg-brand-900 text-brand-50 py-3 px-6 text-center text-sm tracking-wide">
+              Building a pharmacy-first network with <span className="font-semibold">priority onboarding</span>
             </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
+            <div className="p-8 md:p-14">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 text-brand-800 border border-brand-200 px-3 py-1 text-xs font-semibold">
+                  <span className="i-lucide-rocket" />
+                  Phase 1
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 text-xs font-semibold">
+                  Onboarding now
+                </span>
+              </div>
+
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-brand-900 mb-4">
+                We’re launching in <span className="text-brand-700 underline decoration-brand-300/70">Noida</span>
+              </h2>
+              <p className="text-neutral-700 text-base md:text-lg max-w-2xl">
+                If you run a licensed pharmacy in Noida, join our founding cohort for zero listing fees during launch,
+                priority placement and fast payouts.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white border border-brand-200 text-brand-800 px-4 py-2 font-semibold shadow-sm">
+                  Noida
+                </span>
+
+                <a href="#contact">
+                  <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white shadow-lg px-6">
+                    Request onboarding
+                  </Button>
+                </a>
+
+                <a href="/medicine-delivery/noida" className="ml-1">
+                  <Button variant="outline" className="btn-pill border-brand-300 text-brand-800">
+                    Learn more
+                  </Button>
+                </a>
+              </div>
+
+              <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-neutral-700">
+                {[
+                  ["⭐ Priority placement", "Founding partner badge at launch"],
+                  ["⚡ Fast payouts", "Transparent GST invoices"],
+                  ["🛡️ Compliance-first", "Valid Rx & licensed partners only"],
+                ].map(([title, sub], i) => (
+                  <div key={i} className="rounded-2xl border border-brand-100 bg-brand-50/60 p-4">
+                    <div className="font-semibold text-brand-900">{title}</div>
+                    <div className="text-neutral-600">{sub}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* DOWNLOAD */}
       <section id="download" className="py-20 flex flex-col items-center bg-white px-4 md:px-0">
