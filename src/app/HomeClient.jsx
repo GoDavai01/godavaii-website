@@ -13,6 +13,14 @@ import MEDICINES from "../../public/MEDICINES.png";
 import HOME from "../../public/HOME.png";
 import Link from "next/link";
 
+// ---- LAUNCH METRICS (edit these when you have real numbers) ----
+const LAUNCH_METRICS = {
+  ordersDelivered: 0,        // set real count when live
+  partnerPharmacies: 10,     // you have 10 onboarded
+  avgDeliveryMins: null,     // set like 27 when you have data
+  statusNote: "Pre-launch (Noida)"
+};
+
 const screenshots = [
   { src: LOGO, alt: "Logo" },
   { src: MEDICINES, alt: "Medicines" },
@@ -37,6 +45,7 @@ export default function HomeClient() {
   const [touchStartX, setTouchStartX] = useState(null);
   const [slide, setSlide] = useState(0);
   const autoplayRef = useRef(null);
+  const [asOf, setAsOf] = useState("");
 
   useEffect(() => setYear(new Date().getFullYear().toString()), []);
   useEffect(() => {
@@ -49,6 +58,12 @@ export default function HomeClient() {
       setSlide((s) => (s + 1) % testimonials.length);
     }, 3500);
     return () => clearInterval(autoplayRef.current);
+  }, []);
+
+  useEffect(() => {
+    setAsOf(
+      new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+    );
   }, []);
 
   return (
@@ -175,19 +190,41 @@ export default function HomeClient() {
 
       {/* SOCIAL PROOF / STATS */}
       <section className="bg-white/90 border-y border-brand-100">
-        <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-          <div className="p-6 rounded-2xl bg-brand-50">
-            <div className="text-3xl font-extrabold text-brand-800">1.5k+</div>
-            <div className="text-sm text-neutral-700 font-semibold">Orders Delivered</div>
+        <div className="max-w-5xl mx-auto px-4 py-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+            {/* Orders */}
+            <div className="p-6 rounded-2xl bg-brand-50">
+              <div className="text-3xl font-extrabold text-brand-800">
+                {LAUNCH_METRICS.ordersDelivered > 0
+                  ? `${LAUNCH_METRICS.ordersDelivered.toLocaleString()}+`
+                  : "Pre-launch"}
+              </div>
+              <div className="text-sm text-neutral-700 font-semibold">Orders Delivered</div>
+            </div>
+
+            {/* Partner Pharmacies */}
+            <div className="p-6 rounded-2xl bg-brand-50">
+              <div className="text-3xl font-extrabold text-brand-800">
+                {LAUNCH_METRICS.partnerPharmacies}
+              </div>
+              <div className="text-sm text-neutral-700 font-semibold">Partner Pharmacies</div>
+            </div>
+
+            {/* Avg Delivery Time */}
+            <div className="p-6 rounded-2xl bg-brand-50">
+              <div className="text-3xl font-extrabold text-brand-800">
+                {LAUNCH_METRICS.avgDeliveryMins
+                  ? `${LAUNCH_METRICS.avgDeliveryMins} min`
+                  : "Target: <30 min"}
+              </div>
+              <div className="text-sm text-neutral-700 font-semibold">Avg Delivery Time</div>
+            </div>
           </div>
-          <div className="p-6 rounded-2xl bg-brand-50">
-            <div className="text-3xl font-extrabold text-brand-800">50+</div>
-            <div className="text-sm text-neutral-700 font-semibold">Partner Pharmacies</div>
-          </div>
-          <div className="p-6 rounded-2xl bg-brand-50">
-            <div className="text-3xl font-extrabold text-brand-800">&lt;28 min</div>
-            <div className="text-sm text-neutral-700 font-semibold">Avg Delivery Time</div>
-          </div>
+
+          {/* Honest status line */}
+          <p className="text-center text-xs text-neutral-500 mt-3">
+            Status: {LAUNCH_METRICS.statusNote} • As of {asOf}
+          </p>
         </div>
       </section>
 
