@@ -5,15 +5,15 @@ import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Clock3, Building2, Radar } from "lucide-react";
 import Script from "next/script";
 import Link from "next/link";
 
 // ---- LAUNCH METRICS (edit these when you have real numbers) ----
 const LAUNCH_METRICS = {
-  ordersDelivered: 0,        // set real count when live
-  partnerPharmacies: 10,     // you have 10 onboarded
-  avgDeliveryMins: null,     // set like 27 when you have data
+  ordersDelivered: 0, // set real count when live
+  partnerPharmacies: 10, // you have 10 onboarded
+  avgDeliveryMins: null, // set like 27 when you have data
   statusNote: "Pre-launch (Noida)",
 };
 
@@ -75,8 +75,9 @@ export default function HomeClient() {
       <nav className="fixed top-0 left-0 w-full z-50 bg-brand-900/95 text-white shadow-lg border-b border-brand-800 backdrop-blur supports-[backdrop-filter]:bg-brand-900/80 flex justify-between items-center px-4 md:px-16 py-3 transition-all">
         <a href="#" className="flex items-center gap-2 select-none">
           <span className="text-2xl font-extrabold tracking-tight">GoDavaii</span>
-          <span className="hidden md:inline-block text-xs font-medium text-brand-100/80 border-l border-white/20 pl-3">
-            30-minute medicines from trusted pharmacies
+          <span className="hidden md:inline-flex items-center gap-2 text-[11px] font-medium text-brand-100/80 border-l border-white/20 pl-3 uppercase tracking-[0.16em]">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.25)]" />
+            30-minute medicine delivery
           </span>
         </a>
         <div className="hidden md:flex gap-8 font-medium text-sm tracking-wide">
@@ -103,7 +104,7 @@ export default function HomeClient() {
           </a>
         </div>
         <a href="#download" className="hidden md:block">
-          <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white px-6 py-2 text-sm font-semibold">
+          <Button className="btn-pill bg-brand-50/10 hover:bg-brand-50/15 text-white px-6 py-2 text-xs font-semibold border border-white/20">
             Get GoDavaii App
           </Button>
         </a>
@@ -222,49 +223,127 @@ export default function HomeClient() {
       )}
 
       {/* HERO */}
-      <section className="relative flex flex-col justify-center items-center min-h-[90vh] pt-32 pb-16 px-4 md:px-0 mx-auto max-w-2xl md:max-w-4xl">
+      <section className="relative flex flex-col justify-center items-center min-h-[90vh] pt-32 pb-16 px-4 md:px-0 mx-auto max-w-5xl">
         {/* Brand halo background */}
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[120vw] h-[60vh] z-0 pointer-events-none">
           <div className="absolute w-[70vw] h-[40vh] left-1/2 -translate-x-1/2 bg-brand-200/35 rounded-full blur-3xl" />
           <div className="absolute w-[40vw] h-[40vw] right-10 top-20 bg-brand-400/15 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative z-10 flex flex-col items-center w-full">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-center leading-tight mb-6 text-brand-900">
-            30-Minute Medicines.
-            <br className="md:hidden" /> Care You Can Count On.
-          </h1>
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-10 items-center w-full">
+          {/* Text side */}
+          <div className="flex flex-col items-center md:items-start">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/70 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-brand-700 mb-4 shadow-sm">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Pharmacy-first healthcare, starting in Noida
+            </div>
 
-          <p className="text-base md:text-xl text-neutral-700 mb-9 max-w-2xl text-center md:text-left mx-auto font-medium md:font-semibold">
-            India’s fastest hyperlocal medicine delivery, starting in Noida.
-            <br />
-            From licensed neighbourhood pharmacies, with real-time tracking and{" "}
-            <span className="font-semibold text-brand-700">support that actually responds.</span>
-          </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center md:text-left leading-tight mb-4 text-brand-900">
+              30-minute medicines.
+              <br className="hidden md:block" />
+              <span className="text-brand-700"> Calm, pharmacy-first care.</span>
+            </h1>
 
-          <div className="flex flex-col md:flex-row gap-4 w-full justify-center">
-            <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white text-base md:text-lg px-8 py-3 w-full md:w-auto min-w-[240px] md:min-w-[260px]">
-              Download GoDavaii App
-            </Button>
-            <a href="#partner-pharmacy" className="w-full md:w-auto">
-              <Button
-                variant="outline"
-                className="btn-pill border-2 border-brand-700 text-brand-700 text-base md:text-lg px-8 py-3 w-full md:w-auto min-w-[240px] md:min-w-[260px] hover:bg-brand-50"
-              >
-                Partner with GoDavaii
+            <p className="text-sm md:text-lg text-neutral-700 mb-8 max-w-xl text-center md:text-left mx-auto md:mx-0 font-medium">
+              India’s fastest hyperlocal medicine delivery from{" "}
+              <span className="font-semibold">licensed neighbourhood pharmacies</span>. Real-time
+              tracking, pharmacist-checked orders and support that actually responds.
+            </p>
+
+            <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+              <Button className="btn-pill bg-brand-700 hover:bg-brand-800 text-white text-sm md:text-base px-8 py-3 w-full md:w-auto min-w-[220px] md:min-w-[240px] shadow-lg shadow-emerald-900/20">
+                Download GoDavaii App
               </Button>
-            </a>
+              <a href="#partner-pharmacy" className="w-full md:w-auto">
+                <Button
+                  variant="outline"
+                  className="btn-pill border border-brand-700/80 text-brand-800 text-sm md:text-base px-8 py-3 w-full md:w-auto min-w-[220px] md:min-w-[240px] bg-white/70 hover:bg-brand-50"
+                >
+                  Partner with GoDavaii
+                </Button>
+              </a>
+            </div>
+
+            <p className="mt-5 text-[11px] md:text-xs text-neutral-500 text-center md:text-left">
+              Beginning with medicines today. Quietly building a calmer, smarter healthcare
+              experience for tomorrow.
+            </p>
           </div>
 
-          <p className="mt-5 text-xs md:text-sm text-neutral-500 text-center">
-            Beginning with medicines today. Quietly building a calmer, smarter healthcare experience for tomorrow.
-          </p>
+          {/* Visual side */}
+          <div className="hidden md:flex justify-end">
+            <div className="relative w-full max-w-sm">
+              <div className="absolute -top-6 -right-6 w-28 h-28 rounded-3xl bg-gradient-to-br from-brand-400/40 to-emerald-300/30 blur-xl" />
+              <div className="relative rounded-[1.75rem] bg-white/90 border border-brand-100 shadow-[0_22px_60px_rgba(15,91,70,0.22)] p-4 flex flex-col gap-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-2xl bg-brand-50 flex items-center justify-center text-xs font-bold text-brand-800">
+                      Go
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold text-neutral-900">
+                        GoDavaii · Noida Pilot
+                      </div>
+                      <div className="text-[11px] text-neutral-500">
+                        Status: {LAUNCH_METRICS.statusNote}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-[11px] text-neutral-500">As of {asOf}</div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 text-center text-[11px]">
+                  <div className="rounded-2xl bg-brand-50/70 border border-brand-100 px-3 py-3">
+                    <div className="text-[20px] font-extrabold text-brand-800 leading-none mb-1">
+                      {LAUNCH_METRICS.ordersDelivered > 0
+                        ? `${LAUNCH_METRICS.ordersDelivered.toLocaleString()}+`
+                        : "Pre"}
+                    </div>
+                    <div className="uppercase tracking-[0.12em] text-[9px] text-neutral-600">
+                      Orders
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-brand-50/70 border border-brand-100 px-3 py-3">
+                    <div className="text-[20px] font-extrabold text-brand-800 leading-none mb-1">
+                      {LAUNCH_METRICS.partnerPharmacies}
+                    </div>
+                    <div className="uppercase tracking-[0.12em] text-[9px] text-neutral-600">
+                      Pharmacies
+                    </div>
+                  </div>
+                  <div className="rounded-2xl bg-brand-50/70 border border-brand-100 px-3 py-3">
+                    <div className="text-[20px] font-extrabold text-brand-800 leading-none mb-1">
+                      {LAUNCH_METRICS.avgDeliveryMins
+                        ? `${LAUNCH_METRICS.avgDeliveryMins}m`
+                        : "< 30m"}
+                    </div>
+                    <div className="uppercase tracking-[0.12em] text-[9px] text-neutral-600">
+                      Avg time
+                    </div>
+                  </div>
+                </div>
+
+                <div className="relative rounded-2xl border border-dashed border-brand-200 bg-brand-50/60 px-3 py-3 flex items-center gap-3">
+                  <div className="flex -space-x-1.5">
+                    <div className="h-7 w-7 rounded-full bg-emerald-600/90 border border-white" />
+                    <div className="h-7 w-7 rounded-full bg-brand-700/90 border border-white" />
+                    <div className="h-7 w-7 rounded-full bg-emerald-400/90 border border-white" />
+                  </div>
+                  <div className="text-[11px] text-neutral-700 leading-snug">
+                    “Feels like Blinkit-speed, but with{" "}
+                    <span className="font-semibold text-brand-800">real pharmacies</span> we already
+                    trust.”
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* SOCIAL PROOF / STATS */}
-      <section className="bg-white/90 border-y border-brand-100">
-        <div className="max-w-5xl mx-auto px-4 py-10">
+      {/* SOCIAL PROOF / STATS (kept for mobile/overall) */}
+      <section className="bg-white/90 border-y border-brand-100 md:border-y-0 md:pt-0">
+        <div className="max-w-5xl mx-auto px-4 py-8 md:py-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             {/* Orders */}
             <div className="p-6 rounded-2xl bg-brand-50">
@@ -293,7 +372,7 @@ export default function HomeClient() {
               <div className="text-3xl font-extrabold text-brand-800">
                 {LAUNCH_METRICS.avgDeliveryMins
                   ? `${LAUNCH_METRICS.avgDeliveryMins} min`
-                  : "Target: &lt; 30 min"}
+                  : "Target: < 30 min"}
               </div>
               <div className="text-xs uppercase tracking-wide text-neutral-700 font-semibold mt-1">
                 Avg Delivery Time
@@ -311,39 +390,51 @@ export default function HomeClient() {
       {/* FEATURES */}
       <section
         id="features"
-        className="py-24 bg-gradient-to-br from-white via-brand-50/60 to-white px-4 md:px-0"
+        className="py-24 bg-gradient-to-br from-white via-brand-50/70 to-white px-4 md:px-0"
       >
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-14 text-neutral-900">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-neutral-900">
           Why people choose GoDavaii
         </h2>
+        <p className="text-center text-neutral-600 max-w-2xl mx-auto mb-12 text-sm md:text-base">
+          Built for families who want hospital-level seriousness with modern app-level speed and
+          simplicity.
+        </p>
         <div className="mx-auto max-w-xl md:max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-10">
-          <Card className="border-0 rounded-3xl bg-gradient-to-b from-brand-50 to-white shadow-lg hover:shadow-xl hover:translate-y-0.5 transition-all">
-            <CardContent className="p-10 flex flex-col items-center text-center">
-              <span className="text-4xl mb-4">⏱️</span>
-              <h3 className="text-xl font-bold mb-2 text-brand-700">30-Minute Reliability</h3>
+          <Card className="border-0 rounded-3xl bg-gradient-to-b from-brand-50 to-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+            <CardContent className="p-8 flex flex-col items-center text-center gap-3">
+              <div className="h-11 w-11 rounded-2xl bg-brand-700/10 flex items-center justify-center mb-1">
+                <Clock3 className="w-6 h-6 text-brand-800" />
+              </div>
+              <h3 className="text-lg font-bold mb-1 text-brand-800">30-minute reliability</h3>
               <p className="text-neutral-700 text-sm md:text-base">
-                Fast enough for urgency, calm enough for accuracy. Most orders reach in{" "}
-                <b>under 30 minutes</b> within our service radius.
+                Fast enough for urgency, calm enough for accuracy. Most orders reach{" "}
+                <b>in under 30 minutes</b> within our service radius.
               </p>
             </CardContent>
           </Card>
-          <Card className="border-0 rounded-3xl bg-gradient-to-b from-brand-50 to-white shadow-lg hover:shadow-xl hover:translate-y-0.5 transition-all">
-            <CardContent className="p-10 flex flex-col items-center text-center">
-              <span className="text-4xl mb-4">🏪</span>
-              <h3 className="text-xl font-bold mb-2 text-brand-700">Pharmacy-First, Always</h3>
+
+          <Card className="border-0 rounded-3xl bg-gradient-to-b from-brand-50 to-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+            <CardContent className="p-8 flex flex-col items-center text-center gap-3">
+              <div className="h-11 w-11 rounded-2xl bg-brand-700/10 flex items-center justify-center mb-1">
+                <Building2 className="w-6 h-6 text-brand-800" />
+              </div>
+              <h3 className="text-lg font-bold mb-1 text-brand-800">Pharmacy-first, always</h3>
               <p className="text-neutral-700 text-sm md:text-base">
-                No dark warehouses. We partner with <b>licensed neighbourhood pharmacies</b> so your
-                medicines stay authentic and close by.
+                No dark warehouses. We work with <b>licensed neighbourhood pharmacies</b> so your
+                medicines stay authentic, compliant and close by.
               </p>
             </CardContent>
           </Card>
-          <Card className="border-0 rounded-3xl bg-gradient-to-b from-brand-50 to-white shadow-lg hover:shadow-xl hover:translate-y-0.5 transition-all">
-            <CardContent className="p-10 flex flex-col items-center text-center">
-              <span className="text-4xl mb-4">🔔</span>
-              <h3 className="text-xl font-bold mb-2 text-brand-700">Calm, Clear Tracking</h3>
+
+          <Card className="border-0 rounded-3xl bg-gradient-to-b from-brand-50 to-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all">
+            <CardContent className="p-8 flex flex-col items-center text-center gap-3">
+              <div className="h-11 w-11 rounded-2xl bg-brand-700/10 flex items-center justify-center mb-1">
+                <Radar className="w-6 h-6 text-brand-800" />
+              </div>
+              <h3 className="text-lg font-bold mb-1 text-brand-800">Calm, clear tracking</h3>
               <p className="text-neutral-700 text-sm md:text-base">
-                Follow your order from pharmacy to doorstep with <b>live updates</b> and transparent
-                status at every step.
+                Follow your order from pharmacy to doorstep with <b>live status</b>, precise ETAs and
+                helpful updates — not noisy notifications.
               </p>
             </CardContent>
           </Card>
@@ -360,22 +451,22 @@ export default function HomeClient() {
             {[
               {
                 icon: "📸",
-                title: "Upload or Search",
+                title: "Upload or search",
                 desc: "Add your prescription or search for OTC medicines and essentials.",
               },
               {
                 icon: "cart",
-                title: "Pharmacy Confirms",
-                desc: "A nearby licensed pharmacy accepts the order and prepares it.",
+                title: "Pharmacy confirms",
+                desc: "A nearby licensed pharmacy accepts your order and prepares it.",
               },
               {
                 icon: "🛵",
-                title: "30-Minute Delivery",
-                desc: "A delivery partner picks up and brings your order to your doorstep.",
+                title: "30-minute delivery",
+                desc: "A delivery partner picks up and brings it to your doorstep.",
               },
               {
                 icon: "✅",
-                title: "Safe & Documented",
+                title: "Safe & documented",
                 desc: "Pharmacist-checked with secure digital receipts for every order.",
               },
             ].map((s, i) => (
@@ -388,7 +479,7 @@ export default function HomeClient() {
                       s.icon
                     )}
                   </div>
-                  <div className="font-bold text-brand-700 mb-1">{s.title}</div>
+                  <div className="font-bold text-brand-700 mb-1 capitalize">{s.title}</div>
                   <p className="text-xs md:text-sm text-neutral-700 font-semibold mt-1">
                     {s.desc}
                   </p>
@@ -408,25 +499,25 @@ export default function HomeClient() {
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="rounded-2xl border-0 shadow-md">
               <CardContent className="p-6">
-                <div className="text-xl font-bold text-brand-700 mb-2">Prescription Policy</div>
+                <div className="text-xl font-bold text-brand-700 mb-2">Prescription policy</div>
                 <p className="text-neutral-700 text-sm md:text-base">
                   Schedule H/H1 medicines are dispensed only against a valid prescription, reviewed
-                  by a licensed pharmacist.
+                  by a licensed pharmacist, as per applicable regulations.
                 </p>
               </CardContent>
             </Card>
             <Card className="rounded-2xl border-0 shadow-md">
               <CardContent className="p-6">
-                <div className="text-xl font-bold text-brand-700 mb-2">Verified Pharmacies</div>
+                <div className="text-xl font-bold text-brand-700 mb-2">Verified pharmacies</div>
                 <p className="text-neutral-700 text-sm md:text-base">
-                  Every partner is a <b>licensed pharmacy</b>, with orders checked before dispatch so
-                  you receive authentic medicines only.
+                  Every partner is a <b>licensed pharmacy</b>. Orders are pharmacist-checked before
+                  dispatch so you receive authentic medicines only.
                 </p>
               </CardContent>
             </Card>
             <Card className="rounded-2xl border-0 shadow-md">
               <CardContent className="p-6">
-                <div className="text-xl font-bold text-brand-700 mb-2">Privacy & Data</div>
+                <div className="text-xl font-bold text-brand-700 mb-2">Privacy & data</div>
                 <p className="text-neutral-700 text-sm md:text-base">
                   Health data is handled with care. We store information securely and follow
                   least-access principles for sensitive medical details.
@@ -450,8 +541,8 @@ export default function HomeClient() {
           A calm, clear app for everyday care
         </h2>
         <p className="text-center text-neutral-600 max-w-2xl mx-auto mb-10 text-sm md:text-base">
-          Built to feel effortless for every age group — from ordering refills to tracking urgent
-          prescriptions.
+          Built to feel effortless for every age group — from ordering monthly refills to tracking
+          urgent prescriptions in real time.
         </p>
         <div className="flex flex-col items-center mx-auto max-w-xl md:max-w-4xl">
           <div className="flex items-center gap-4 sm:gap-6">
@@ -519,13 +610,13 @@ export default function HomeClient() {
             </p>
             <ul className="space-y-3 text-gray-800 text-sm md:text-base">
               <li>
-                ✅ <b>More Orders:</b> Reach customers nearby with zero marketing spend.
+                ✅ <b>More orders:</b> Reach nearby customers with zero marketing spend.
               </li>
               <li>
-                ✅ <b>Fast Payouts:</b> Quick settlements with transparent GST invoices.
+                ✅ <b>Fast payouts:</b> Quick settlements with transparent GST invoices.
               </li>
               <li>
-                ✅ <b>Simple Tools:</b> Web dashboard, order alerts, item substitutions.
+                ✅ <b>Simple tools:</b> Web dashboard, order alerts, item substitutions.
               </li>
               <li>
                 ✅ <b>Control:</b> Set timings, stock, delivery radius & holidays.
@@ -549,7 +640,7 @@ export default function HomeClient() {
                   variant="outline"
                   className="border-[#0f5b46] text-[#0f5b46] rounded-full px-6 text-sm md:text-base"
                 >
-                  Learn More
+                  Learn more
                 </Button>
               </a>
             </div>
@@ -572,9 +663,9 @@ export default function HomeClient() {
               <CardContent className="p-6">
                 <h3 className="font-bold text-lg text-[#0f5b46] mb-2">Onboarding in 3 simple steps</h3>
                 <ol className="list-decimal list-inside text-gray-700 space-y-2 text-sm md:text-base">
-                  <li>Share drug licence, GST and basic store details</li>
-                  <li>Inventory & working hours setup (with our team’s help)</li>
-                  <li>Go live and start receiving GoDavaii orders</li>
+                  <li>Share drug licence, GST and basic store details.</li>
+                  <li>Inventory & working hours setup (with our team’s help).</li>
+                  <li>Go live and start receiving GoDavaii orders.</li>
                 </ol>
               </CardContent>
             </Card>
@@ -589,8 +680,8 @@ export default function HomeClient() {
             Become a Delivery Partner
           </h2>
           <p className="text-gray-700 mb-6 max-w-3xl text-sm md:text-base">
-            Flexible hours, dependable earnings and per-order incentives. Deliver health, not fast
-            food — and be part of a calmer kind of on-ground work.
+            Flexible hours, dependable earnings and per-order incentives. Deliver health, not just
+            parcels — and be part of a calmer kind of on-ground work.
           </p>
 
           <div className="grid md:grid-cols-3 gap-4">
@@ -645,7 +736,8 @@ export default function HomeClient() {
             What our early users say
           </h2>
           <p className="text-center text-neutral-600 max-w-2xl mx-auto mb-8 text-sm md:text-base">
-            GoDavaii is already helping families in Noida get medicines faster, with less stress.
+            GoDavaii is already helping families in Noida get medicines faster, with less stress and
+            more clarity.
           </p>
 
           <div className="relative overflow-hidden max-w-[640px] sm:max-w-3xl mx-auto px-2">
@@ -833,7 +925,8 @@ export default function HomeClient() {
           </ul>
           <p className="text-xs md:text-sm text-neutral-600">
             Compliance: “GoDavaii facilitates delivery from licensed pharmacies. Prescription
-            medicines are dispensed only against a valid prescription, as per applicable regulations.”
+            medicines are dispensed only against a valid prescription, as per applicable
+            regulations.”
           </p>
         </div>
       </section>
@@ -920,9 +1013,9 @@ export default function HomeClient() {
           </form>
           <div className="text-center text-neutral-500 mt-6 text-sm md:text-base">
             Or email us at{" "}
-            <a href="mailto:info@godavaii.com" className="text-brand-700 underline">
-              info@godavaii.com
-            </a>
+              <a href="mailto:info@godavaii.com" className="text-brand-700 underline">
+                info@godavaii.com
+              </a>
           </div>
         </div>
       </section>
@@ -944,9 +1037,7 @@ export default function HomeClient() {
               Terms
             </a>
           </div>
-          <div className="opacity-90">
-            &copy; {year} GoDavaii. All rights reserved.
-          </div>
+          <div className="opacity-90">&copy; {year} GoDavaii. All rights reserved.</div>
         </div>
       </footer>
 
