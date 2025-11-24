@@ -330,10 +330,10 @@ export default function HomeClient() {
                     <div className="h-7 w-7 rounded-full bg-emerald-400/90 border border-white" />
                   </div>
                   <div className="text-[11px] text-neutral-700 leading-snug">
-                    “Feels like Blinkit-speed, but with{" "}
-                    <span className="font-semibold text-brand-800">real pharmacies</span> we already
-                    trust.”
-                  </div>
+  “Speed that feels effortless. Care that feels personal — from{" "}
+  <span className="font-semibold text-brand-800">real pharmacies</span>.”
+</div>
+
                 </div>
               </div>
             </div>
