@@ -242,7 +242,7 @@ export default function HomeClient() {
   Trusted pharmacy medicines, 
   <br className="hidden md:block" />
   <span className="text-brand-700">
-    delivered to your doorstep in 30 minutes.
+     delivered to your doorstep in 30 minutes.
   </span>
 </h1>
 
