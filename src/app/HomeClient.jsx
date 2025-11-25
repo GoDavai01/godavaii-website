@@ -238,8 +238,8 @@ export default function HomeClient() {
               Pharmacy-first healthcare, starting in Noida
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center md:text-left leading-tight mb-4 text-brand-900 max-w-xl">
-  Trusted pharmacy medicines
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center md:text-left leading-tight mb-6 text-brand-900">
+  Trusted pharmacy medicines,
   <br className="hidden md:block" />
   <span className="text-brand-700">
     delivered to your doorstep in 30 minutes.
