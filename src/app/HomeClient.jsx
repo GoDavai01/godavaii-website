@@ -238,13 +238,12 @@ export default function HomeClient() {
               Pharmacy-first healthcare, starting in Noida
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center md:text-left leading-tight mb-6 text-brand-900">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center md:text-left leading-tight mb-4 text-brand-900">
   Trusted pharmacy medicines,
   <br className="hidden md:block" />
-  <span className="text-brand-700">
-    delivered to your doorstep in 30 minutes.
-  </span>
+  <span className="text-brand-700">delivered in 30 minutes.</span>
 </h1>
+
             <p className="text-sm md:text-lg text-neutral-700 mb-8 max-w-xl text-center md:text-left mx-auto md:mx-0 font-medium">
               India’s fastest hyperlocal medicine delivery from{" "}
               <span className="font-semibold">licensed neighbourhood pharmacies</span>. Real-time
