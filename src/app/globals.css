@@ -4,15 +4,6 @@
 /* Keep dark variant helper */
 @custom-variant dark (&:is(.dark *));
 
-/* soft glow utility (optional use: add class `shadow-glow`) */
-.shadow-glow {
-  box-shadow: 0 20px 60px rgba(16, 94, 73, .18);
-}
-
-/* lucide icon fallback class (used in coverage ribbon) */
-.i-lucide-rocket::before { content: "🚀"; }
-
-
 /* Tailwind v4 custom tokens */
 @theme inline {
   /* === BRAND (GoDavaii) === */
@@ -26,6 +17,14 @@
   --color-brand-700: #156b56; /* main */
   --color-brand-800: #115744;
   --color-brand-900: #0f5b46; /* app bar / hero */
+
+  /* Dark premium tokens */
+  --color-dark-base: #0a0a0a;
+  --color-dark-surface: #111111;
+  --color-dark-card: #161616;
+  --color-dark-elevated: #1a1a1a;
+  --color-glow-teal: #00ffaa;
+  --color-glow-emerald: #34d399;
 
   /* map Tailwind tokens -> CSS vars used by shadcn/ui etc */
   --color-background: var(--background);
@@ -52,7 +51,7 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
 
-  /* Sidebar tokens (if you use them) */
+  /* Sidebar tokens */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -69,82 +68,34 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* === LIGHT THEME VALUES (GoDavaii) === */
+/* === DARK THEME AS DEFAULT === */
 :root {
   --radius: 0.875rem;
 
-  /* Base surfaces */
-  --background: var(--color-brand-50);
-  --foreground: oklch(0.20 0 0); /* near black */
+  --background: #0a0a0a;
+  --foreground: #f0f0f0;
 
-  --card: #ffffff;
-  --card-foreground: oklch(0.20 0 0);
-  --popover: #ffffff;
-  --popover-foreground: oklch(0.20 0 0);
+  --card: #161616;
+  --card-foreground: #f0f0f0;
+  --popover: #161616;
+  --popover-foreground: #f0f0f0;
 
-  /* Brand mapping */
-  --primary: var(--color-brand-700);
+  --primary: var(--color-brand-500);
   --primary-foreground: #ffffff;
 
-  --secondary: var(--color-brand-100);
-  --secondary-foreground: var(--color-brand-800);
+  --secondary: #1a1a1a;
+  --secondary-foreground: #e0e0e0;
 
-  --muted: oklch(0.95 0 0);
-  --muted-foreground: oklch(0.46 0 0);
+  --muted: #222222;
+  --muted-foreground: #888888;
 
-  --accent: var(--color-brand-50);
-  --accent-foreground: var(--color-brand-800);
+  --accent: #1a1a1a;
+  --accent-foreground: #e0e0e0;
 
   --destructive: oklch(0.62 0.21 25);
 
-  --border: oklch(0.90 0 0);
-  --input: oklch(0.92 0 0);
-  --ring: var(--color-brand-400);
-
-  /* Charts (unused = safe defaults) */
-  --chart-1: var(--color-brand-700);
-  --chart-2: #3b82f6;
-  --chart-3: #f59e0b;
-  --chart-4: #10b981;
-  --chart-5: #8b5cf6;
-
-  /* Sidebar (optional) */
-  --sidebar: #ffffff;
-  --sidebar-foreground: oklch(0.20 0 0);
-  --sidebar-primary: var(--color-brand-700);
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: var(--color-brand-50);
-  --sidebar-accent-foreground: var(--color-brand-800);
-  --sidebar-border: oklch(0.90 0 0);
-  --sidebar-ring: var(--color-brand-400);
-}
-
-/* === DARK THEME (optional) === */
-.dark {
-  --background: oklch(0.20 0 0);
-  --foreground: oklch(0.98 0 0);
-
-  --card: oklch(0.26 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.26 0 0);
-  --popover-foreground: oklch(0.98 0 0);
-
-  --primary: var(--color-brand-600);
-  --primary-foreground: #ffffff;
-
-  --secondary: oklch(0.28 0 0);
-  --secondary-foreground: oklch(0.98 0 0);
-
-  --muted: oklch(0.28 0 0);
-  --muted-foreground: oklch(0.80 0 0);
-
-  --accent: oklch(0.28 0 0);
-  --accent-foreground: oklch(0.98 0 0);
-
-  --destructive: oklch(0.62 0.21 25);
-
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
   --ring: var(--color-brand-400);
 
   --chart-1: var(--color-brand-500);
@@ -153,13 +104,13 @@
   --chart-4: #34d399;
   --chart-5: #a78bfa;
 
-  --sidebar: oklch(0.22 0 0);
-  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar: #111111;
+  --sidebar-foreground: #f0f0f0;
   --sidebar-primary: var(--color-brand-600);
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: oklch(0.26 0 0);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #e0e0e0;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: var(--color-brand-400);
 }
 
@@ -173,10 +124,178 @@
   }
 }
 
-/* Small helpers matching your app look */
+/* ===== PREMIUM UTILITIES ===== */
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #3aa285 0%, #00ffaa 50%, #8fccb8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-white {
+  background: linear-gradient(135deg, #ffffff 0%, #8fccb8 50%, #3aa285 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effects */
+.glow-teal {
+  box-shadow: 0 0 20px rgba(0, 255, 170, 0.15), 0 0 60px rgba(0, 255, 170, 0.05);
+}
+
+.glow-teal-strong {
+  box-shadow: 0 0 30px rgba(0, 255, 170, 0.25), 0 0 80px rgba(0, 255, 170, 0.1);
+}
+
+.text-glow {
+  text-shadow: 0 0 40px rgba(0, 255, 170, 0.3), 0 0 80px rgba(0, 255, 170, 0.1);
+}
+
+/* Gradient border */
+.gradient-border {
+  position: relative;
+  background: #161616;
+  border-radius: 1rem;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 255, 170, 0.3), rgba(58, 162, 133, 0.1), rgba(0, 255, 170, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* Gradient mesh orbs */
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(1.05); }
+  66% { transform: translate(50px, -30px) scale(0.9); }
+}
+@keyframes orb-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(20px, 40px) scale(0.95); }
+  66% { transform: translate(-30px, -40px) scale(1.1); }
+}
+
+.orb-1 {
+  animation: orb-float-1 20s ease-in-out infinite;
+}
+.orb-2 {
+  animation: orb-float-2 25s ease-in-out infinite;
+}
+.orb-3 {
+  animation: orb-float-3 18s ease-in-out infinite;
+}
+
+/* Typewriter cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 170, 0.1), 0 0 40px rgba(0, 255, 170, 0.05); }
+  50% { box-shadow: 0 0 30px rgba(0, 255, 170, 0.2), 0 0 60px rgba(0, 255, 170, 0.1); }
+}
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Float / bob */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Shimmer sweep on buttons */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.btn-shimmer {
+  background-size: 200% auto;
+  background-image: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+}
+.btn-shimmer:hover {
+  animation: shimmer 1.5s linear infinite;
+}
+
+/* Scroll down indicator */
+@keyframes scroll-hint {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+.animate-scroll-hint {
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
+/* Gradient shift on hover */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Smooth fade-up for scroll reveals */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Soft pill style */
 .btn-pill {
   @apply rounded-[9999px] shadow-lg;
 }
 .card-soft {
-  @apply bg-white/90 border border-border shadow-sm rounded-2xl;
+  @apply bg-white/5 border border-white/[0.06] shadow-sm rounded-2xl backdrop-blur-xl;
 }

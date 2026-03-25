@@ -2,9 +2,9 @@
 import HomeClient from "./HomeClient";
 
 export const metadata = {
-  title: "Medicine Delivery in Under 30 Minutes | GoDavaii",
+  title: "GoDavaii AI — Your AI Health Assistant in 16 Indian Languages",
   description:
-    "Order medicines from verified local pharmacies with GoDavaii. Fast hyperlocal delivery (under 30 minutes), real-time tracking and 24x7 support.",
+    "Ask about symptoms, medicines, prescriptions, lab reports, X-rays. AI-powered health assistant with voice support in Hindi, Tamil, Telugu, Bengali & more. Order medicines online with 30-min delivery.",
   alternates: { canonical: "/" },
 };
 

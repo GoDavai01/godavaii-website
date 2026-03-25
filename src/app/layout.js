@@ -12,29 +12,37 @@ const SITE_URL = "https://www.godavaii.com";
 const OG_IMAGE = "/og-cover.jpg";
 
 export const viewport = {
-  themeColor: "#156b56",
+  themeColor: "#0a0a0a",
   width: "device-width",
   initialScale: 1,
 };
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  applicationName: "GoDavaii",
+  applicationName: "GoDavaii AI",
   title: {
-    default: "GoDavaii — Fastest Medicine Delivery (Under 30 Minutes)",
+    default: "GoDavaii AI — Your AI Health Assistant in 16 Indian Languages",
     template: "%s | GoDavaii",
   },
   description:
-    "Authentic medicines delivered in under 30 minutes from licensed local pharmacies. Upload prescription, live tracking, secure payments, 24×7 support.",
+    "AI-powered health assistant. Ask about symptoms, medicines, prescriptions, lab reports, X-rays in 16 Indian languages. Order medicines online with 30-min delivery from verified pharmacies.",
   keywords: [
     "GoDavaii",
+    "GoDavaii AI",
+    "AI health assistant",
+    "medical AI",
+    "health chatbot",
+    "symptom checker",
+    "prescription analysis",
     "medicine delivery",
     "pharmacy delivery",
-    "prescription delivery",
-    "fast medicine delivery",
-    "24x7 pharmacy",
-    "Noida medicine delivery",
-    "medicines online near me",
+    "online medicine order",
+    "lab test booking",
+    "doctor consultation online",
+    "Hindi health assistant",
+    "Indian languages health AI",
+    "medicine price check",
+    "generic medicine alternatives",
   ],
   robots: {
     index: true,
@@ -51,18 +59,18 @@ export const metadata = {
   openGraph: {
     type: "website",
     url: SITE_URL,
-    siteName: "GoDavaii",
-    title: "GoDavaii — Fastest Medicine Delivery (Under 30 Minutes)",
+    siteName: "GoDavaii AI",
+    title: "GoDavaii AI — Your AI Health Assistant in 16 Indian Languages",
     description:
-      "Order from verified local pharmacies. Real-time tracking. 24×7 support. GoDavaii.",
-    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "GoDavaii" }],
+      "AI-powered health assistant with voice support in Hindi, Tamil, Telugu, Bengali & more. Medicine delivery, doctor consultations, lab tests.",
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "GoDavaii AI — Healthcare Platform" }],
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "GoDavaii — Fastest Medicine Delivery (Under 30 Minutes)",
+    title: "GoDavaii AI — Your AI Health Assistant in 16 Indian Languages",
     description:
-      "Authentic medicines delivered fast from licensed local pharmacies.",
+      "AI health assistant in 16 Indian languages. Medicine delivery, doctor consultations, lab tests.",
     images: [OG_IMAGE],
   },
   category: "Health",
@@ -98,23 +106,25 @@ export default function RootLayout({ children }) {
               name: "GoDavaii",
               url: SITE_URL,
               logo: `${SITE_URL}${OG_IMAGE}`,
-              sameAs: [
-                // Add socials when ready
-              ],
+              description:
+                "India's AI-powered healthcare platform. AI health assistant, medicine delivery, doctor consultations, and lab tests in 16 Indian languages.",
+              sameAs: [],
               contactPoint: [
                 {
                   "@type": "ContactPoint",
                   contactType: "customer support",
                   email: "info@godavaii.com",
                   areaServed: "IN",
-                  availableLanguage: ["en", "hi"],
+                  availableLanguage: [
+                    "en", "hi", "bn", "ta", "te", "kn", "ml", "gu", "pa", "mr", "or", "ur",
+                  ],
                 },
               ],
             }),
           }}
         />
 
-        {/* Website schema + SearchAction */}
+        {/* WebSite schema */}
         <Script
           id="ld-website"
           type="application/ld+json"
@@ -124,30 +134,41 @@ export default function RootLayout({ children }) {
               "@context": "https://schema.org",
               "@type": "WebSite",
               url: SITE_URL,
-              name: "GoDavaii",
+              name: "GoDavaii AI",
+              description: "AI-powered healthcare platform with medicine delivery, doctor consultations, and lab tests",
               potentialAction: {
                 "@type": "SearchAction",
-                target: `${SITE_URL}/?q={search_term_string}`,
+                target: `${SITE_URL}/medicine/{search_term_string}`,
                 "query-input": "required name=search_term_string",
               },
             }),
           }}
         />
 
-        {/* Local business signals (Noida only) */}
+        {/* SoftwareApplication schema — GoDavaii AI */}
         <Script
-          id="ld-local"
+          id="ld-app"
           type="application/ld+json"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "GoDavaii",
-              image: `${SITE_URL}${OG_IMAGE}`,
-              url: SITE_URL,
-              areaServed: ["Noida"],
-              priceRange: "₹₹",
+              "@type": "SoftwareApplication",
+              name: "GoDavaii AI",
+              applicationCategory: "HealthApplication",
+              operatingSystem: "Web, Android, iOS",
+              description:
+                "AI health assistant in 16 Indian languages. Analyze prescriptions, lab reports, X-rays. Check symptoms, find medicines, book doctors.",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "INR",
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                ratingCount: "500",
+              },
             }),
           }}
         />

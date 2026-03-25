@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "godavaii-website",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/.bin/next", "dev"],
+      "port": 3000,
+      "cwd": "C:/Users/purur/.vscode/Godavaii/Godavaii-Website/website"
+    }
+  ]
+}
