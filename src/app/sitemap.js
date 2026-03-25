@@ -1,9 +1,9 @@
 // app/sitemap.js — Dynamic sitemap for 4000+ pages
 import { fetchAllMedicines, extractCategories, slugify } from "@/lib/api";
 import { conditions } from "@/data/conditions";
+import { cities } from "@/data/cities";
 
 const SITE_URL = "https://www.godavaii.com";
-const cities = ["noida", "delhi", "gurgaon", "ghaziabad", "greater-noida", "faridabad"];
 
 export default async function sitemap() {
   const now = new Date().toISOString();
@@ -16,9 +16,9 @@ export default async function sitemap() {
     { url: `${SITE_URL}/refunds`, lastModified: now, changeFrequency: "monthly", priority: 0.3 },
   ];
 
-  // City pages
-  const cityPages = cities.map((city) => ({
-    url: `${SITE_URL}/medicine-delivery/${city}`,
+  // City pages (600+ cities across India)
+  const cityPages = cities.map((c) => ({
+    url: `${SITE_URL}/medicine-delivery/${c.slug}`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.9,

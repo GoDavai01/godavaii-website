@@ -1,8 +1,8 @@
 // app/medicine-delivery/[city]/page.js — Enhanced city page with dark theme + SEO
 import Link from "next/link";
 import { Sparkles, Clock, Pill, ShieldCheck, Stethoscope, ArrowRight, MapPin } from "lucide-react";
+import { cities as allCitiesData } from "@/data/cities";
 
-const allCities = ["noida", "delhi", "gurgaon", "ghaziabad", "greater-noida", "faridabad"];
 export const dynamicParams = true;
 export const revalidate = 86400;
 
@@ -10,17 +10,20 @@ const titleize = (s) =>
   String(s || "").replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
 export function generateStaticParams() {
-  return allCities.map((city) => ({ city }));
+  // Pre-build top 50 cities; rest via ISR
+  return allCitiesData.slice(0, 50).map((c) => ({ city: c.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { city } = await params;
-  const cityName = titleize(city);
+  const cityData = allCitiesData.find((c) => c.slug === city);
+  const cityName = cityData?.name || titleize(city);
+  const stateName = cityData?.state || "";
   const canonical = `/medicine-delivery/${city}`;
 
-  const title = `Medicine Delivery in ${cityName} — Under 30 Minutes | GoDavaii`;
+  const title = `Medicine Delivery in ${cityName}${stateName ? `, ${stateName}` : ""} — Under 30 Minutes | GoDavaii`;
   const description =
-    `Order medicines online in ${cityName} with fast delivery from verified local pharmacies. ` +
+    `Order medicines online in ${cityName}${stateName ? `, ${stateName}` : ""} with fast delivery from verified local pharmacies. ` +
     `AI health assistant in 16 languages. Prescription upload, real-time tracking, 24x7 support.`;
 
   return {
@@ -34,7 +37,9 @@ export async function generateMetadata({ params }) {
 
 export default async function CityPage({ params }) {
   const { city } = await params;
-  const cityName = titleize(city);
+  const cityData = allCitiesData.find((c) => c.slug === city);
+  const cityName = cityData?.name || titleize(city);
+  const stateName = cityData?.state || "";
 
   const faqs = [
     { q: `How fast is medicine delivery in ${cityName}?`, a: `GoDavaii partners with verified local pharmacies in ${cityName} to deliver medicines in under 30 minutes. Real-time tracking is available for every order.` },
@@ -172,23 +177,47 @@ export default async function CityPage({ params }) {
         </div>
       </section>
 
-      {/* Other cities */}
+      {/* Nearby cities (same state) */}
       <section className="max-w-5xl mx-auto px-4 md:px-8 pb-16">
-        <h2 className="text-xl font-semibold text-white mb-4">Available in More Cities</h2>
+        <h2 className="text-xl font-semibold text-white mb-4">
+          {stateName ? `More Cities in ${stateName}` : "Available in More Cities"}
+        </h2>
         <div className="flex flex-wrap gap-2">
-          {allCities.map((c) => (
-            <Link
-              key={c}
-              href={`/medicine-delivery/${c}`}
-              className={`px-4 py-2 rounded-full text-sm transition-all ${
-                c === city
-                  ? "bg-brand-500/20 border border-brand-500/30 text-brand-300"
-                  : "bg-white/[0.04] border border-white/[0.06] text-white/50 hover:text-white/70"
-              }`}
-            >
-              {titleize(c)}
-            </Link>
-          ))}
+          {allCitiesData
+            .filter((c) => stateName ? c.state === stateName : true)
+            .slice(0, 30)
+            .map((c) => (
+              <Link
+                key={c.slug}
+                href={`/medicine-delivery/${c.slug}`}
+                className={`px-4 py-2 rounded-full text-sm transition-all ${
+                  c.slug === city
+                    ? "bg-brand-500/20 border border-brand-500/30 text-brand-300"
+                    : "bg-white/[0.04] border border-white/[0.06] text-white/50 hover:text-white/70"
+                }`}
+              >
+                {c.name}
+              </Link>
+            ))}
+        </div>
+      </section>
+
+      {/* Major cities across India */}
+      <section className="max-w-5xl mx-auto px-4 md:px-8 pb-16">
+        <h2 className="text-xl font-semibold text-white mb-4">Medicine Delivery Across India</h2>
+        <div className="flex flex-wrap gap-2">
+          {allCitiesData
+            .filter((c) => c.state !== stateName)
+            .slice(0, 20)
+            .map((c) => (
+              <Link
+                key={c.slug}
+                href={`/medicine-delivery/${c.slug}`}
+                className="px-4 py-2 rounded-full text-sm bg-white/[0.04] border border-white/[0.06] text-white/50 hover:text-white/70 transition-all"
+              >
+                {c.name}
+              </Link>
+            ))}
         </div>
       </section>
 
