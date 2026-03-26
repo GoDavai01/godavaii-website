@@ -15,8 +15,22 @@ import { slugify } from "@/lib/api";
 
 export default function MedicineClient({ med, alternatives, content, categorySlug, categoryName }) {
   const [loginOpen, setLoginOpen] = useState(false);
-  const discount = med.mrp && med.price && med.mrp > med.price
-    ? Math.round(((med.mrp - med.price) / med.mrp) * 100)
+  const variants = med.variants || [];
+  const hasVariants = variants.length > 1;
+
+  // Selected variant state — default to first (cheapest)
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const activeVariant = hasVariants ? variants[selectedIdx] : null;
+
+  // Use active variant's price/mrp if available, otherwise use med's
+  const activePrice = activeVariant ? activeVariant.price : med.price;
+  const activeMrp = activeVariant ? activeVariant.mrp : med.mrp;
+  const activeImg = activeVariant?.img || med.img;
+  const activePackCount = activeVariant ? activeVariant.packCount : med.packCount;
+  const activePackUnit = activeVariant ? activeVariant.packUnit : med.packUnit;
+
+  const discount = activeMrp && activePrice && activeMrp > activePrice
+    ? Math.round(((activeMrp - activePrice) / activeMrp) * 100)
     : 0;
 
   return (
@@ -54,10 +68,10 @@ export default function MedicineClient({ med, alternatives, content, categorySlu
           animate={{ opacity: 1, y: 0 }}
           className="grid grid-cols-1 md:grid-cols-[1fr_1.5fr] gap-8 mb-12"
         >
-          {/* Image */}
+          {/* Image — updates when variant changes */}
           <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-8 flex items-center justify-center min-h-[250px]">
-            {med.img ? (
-              <Image src={med.img} alt={med.name} width={300} height={300} className="object-contain max-h-[250px] w-auto" />
+            {activeImg ? (
+              <Image src={activeImg} alt={med.name} width={300} height={300} className="object-contain max-h-[250px] w-auto" />
             ) : (
               <Pill className="h-20 w-20 text-white/10" />
             )}
@@ -92,11 +106,11 @@ export default function MedicineClient({ med, alternatives, content, categorySlu
             {/* Price Card */}
             <div className="rounded-xl bg-white/[0.04] border border-white/[0.06] p-5 mb-5">
               <div className="flex items-baseline gap-3">
-                {med.price > 0 && (
-                  <span className="text-3xl font-bold gradient-text">₹{med.price}</span>
+                {activePrice > 0 && (
+                  <span className="text-3xl font-bold gradient-text">₹{activePrice}</span>
                 )}
-                {med.mrp > 0 && med.mrp > med.price && (
-                  <span className="text-lg text-white/30 line-through">₹{med.mrp}</span>
+                {activeMrp > 0 && activeMrp > activePrice && (
+                  <span className="text-lg text-white/30 line-through">₹{activeMrp}</span>
                 )}
                 {discount > 0 && (
                   <span className="px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 text-sm font-medium">
@@ -104,11 +118,42 @@ export default function MedicineClient({ med, alternatives, content, categorySlu
                   </span>
                 )}
               </div>
-              {med.packCount > 0 && (
+              {activePackCount > 0 && (
                 <p className="text-white/40 text-sm mt-2 flex items-center gap-2">
                   <Package className="h-3.5 w-3.5" />
-                  Pack of {med.packCount} {med.packUnit || "units"}
+                  Pack of {activePackCount} {activePackUnit || "units"}
                 </p>
+              )}
+
+              {/* Pack Size Selector — shows when multiple variants exist */}
+              {hasVariants && (
+                <div className="mt-4 pt-4 border-t border-white/[0.06]">
+                  <p className="text-white/50 text-xs mb-2 font-medium uppercase tracking-wide">Available Pack Sizes</p>
+                  <div className="flex flex-wrap gap-2">
+                    {variants.map((v, i) => {
+                      const isActive = i === selectedIdx;
+                      const label = v.packCount > 0
+                        ? `${v.packCount} ${v.packUnit || "units"}`
+                        : `₹${v.price}`;
+                      return (
+                        <button
+                          key={v._id || i}
+                          onClick={() => setSelectedIdx(i)}
+                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            isActive
+                              ? "bg-brand-500/20 border-brand-500/50 text-brand-300 border"
+                              : "bg-white/[0.03] border border-white/[0.08] text-white/50 hover:bg-white/[0.06] hover:text-white/70"
+                          }`}
+                        >
+                          <span className="block">{label}</span>
+                          <span className={`block text-xs mt-0.5 ${isActive ? "text-brand-400" : "text-white/30"}`}>
+                            ₹{v.price}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
             </div>
 
