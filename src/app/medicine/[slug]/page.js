@@ -7,18 +7,20 @@ export const revalidate = 86400; // 24h ISR
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const medicines = await fetchAllMedicines();
-  const seen = new Set();
-  const params = [];
-  for (const m of medicines) {
-    const s = slugify(m.name);
-    if (s && !seen.has(s)) {
-      seen.add(s);
-      params.push({ slug: s });
-    }
-    if (params.length >= 50) break;
-  }
-  return params;
+  // Hardcode top medicines to avoid API timeout during Vercel build
+  // All other 4000+ medicines use ISR (dynamicParams=true) — generated on first visit
+  return [
+    { slug: "paracetamol" },
+    { slug: "paracip-500" },
+    { slug: "dolo-650mg-tablets" },
+    { slug: "cetirizine-10-mg" },
+    { slug: "azee-500-tablet" },
+    { slug: "ibuprofen-400-mg" },
+    { slug: "omeprazole-20-mg" },
+    { slug: "crocin-650-tablets" },
+    { slug: "atorva-20-tablet" },
+    { slug: "avil-injection" },
+  ];
 }
 
 export async function generateMetadata({ params }) {

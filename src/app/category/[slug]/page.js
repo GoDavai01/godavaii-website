@@ -1,26 +1,27 @@
 // app/category/[slug]/page.js — Category listing SEO page
-import Link from "next/link";
 import { fetchAllMedicines, extractCategories, filterByCategory, slugify } from "@/lib/api";
 import CategoryClient from "./CategoryClient";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
 
+// Only pre-generate a few categories at build time — rest use ISR on first visit
 export async function generateStaticParams() {
-  const medicines = await fetchAllMedicines();
-  const categories = extractCategories(medicines);
-  // Pre-generate top 30 categories at build time; rest use ISR on-demand
-  return categories.slice(0, 30).map((c) => ({ slug: c.slug }));
+  // Hardcode the top 5 categories to avoid calling the API during build
+  return [
+    { slug: "all" },
+    { slug: "fever" },
+    { slug: "pain-relief" },
+    { slug: "cold-and-cough" },
+    { slug: "allergy" },
+  ];
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const medicines = await fetchAllMedicines();
-  const categories = extractCategories(medicines);
-  const cat = categories.find((c) => c.slug === slug);
-  const rawName = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  // Decode any URL encoding (%26 → &) and clean up
-  const name = decodeURIComponent(rawName).replace(/%26/g, "&");
+  // Generate a clean name from slug without fetching API
+  const rawName = slug === "all" ? "All" : slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const name = decodeURIComponent(rawName).replace(/%26/g, "&").replace(/And/g, "&");
   return {
     title: `${name} Medicines — Buy Online, Fast Delivery | GoDavaii`,
     description: `Browse ${name} medicines online. Compare prices, find affordable generic alternatives & order with fast delivery from verified local pharmacies near you.`.slice(0, 160),
@@ -39,7 +40,6 @@ export default async function CategoryPage({ params }) {
   const categories = extractCategories(allMedicines);
   const cat = categories.find((c) => c.slug === slug);
   const rawName = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  // Decode any URL encoding (%26 → &) and clean up
   const name = decodeURIComponent(rawName).replace(/%26/g, "&");
 
   // "all" shows everything
