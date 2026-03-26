@@ -18,7 +18,9 @@ export async function generateMetadata({ params }) {
   const medicines = await fetchAllMedicines();
   const categories = extractCategories(medicines);
   const cat = categories.find((c) => c.slug === slug);
-  const name = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const rawName = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  // Decode any URL encoding (%26 → &) and clean up
+  const name = decodeURIComponent(rawName).replace(/%26/g, "&");
   return {
     title: `${name} Medicines — Buy Online, Fast Delivery | GoDavaii`,
     description: `Browse ${name} medicines online. Compare prices, find affordable generic alternatives & order with fast delivery from verified local pharmacies near you.`.slice(0, 160),
@@ -36,7 +38,9 @@ export default async function CategoryPage({ params }) {
   const allMedicines = await fetchAllMedicines();
   const categories = extractCategories(allMedicines);
   const cat = categories.find((c) => c.slug === slug);
-  const name = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const rawName = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  // Decode any URL encoding (%26 → &) and clean up
+  const name = decodeURIComponent(rawName).replace(/%26/g, "&");
 
   // "all" shows everything
   const medicines = slug === "all" ? allMedicines : filterByCategory(allMedicines, slug);
