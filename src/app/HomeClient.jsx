@@ -703,6 +703,7 @@ export default function HomeClient() {
                 <Link href="/category/all" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Medicines</Link>
                 <a href="#languages" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Languages</a>
                 <a href="#faq" className="block text-white/40 text-sm hover:text-white/70 transition-colors">FAQ</a>
+                <Link href="/blog" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Health Blog</Link>
               </div>
             </div>
 

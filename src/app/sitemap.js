@@ -1,7 +1,8 @@
-// app/sitemap.js — Dynamic sitemap for 4000+ pages
+// app/sitemap.js — Dynamic sitemap for 6000+ pages
 import { fetchAllMedicines, extractCategories, slugify } from "@/lib/api";
 import { conditions } from "@/data/conditions";
 import { cities } from "@/data/cities";
+import { getAllArticles } from "@/data/blogIndex";
 
 const SITE_URL = "https://www.godavaii.com";
 
@@ -62,8 +63,24 @@ export default async function sitemap() {
     // If API is down, return just static pages
   }
 
+  // Blog articles (1000+)
+  let blogPages = [];
+  try {
+    const articles = getAllArticles();
+    blogPages = [
+      { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
+      ...articles.map((a) => ({
+        url: `${SITE_URL}/blog/${a.slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.6,
+      })),
+    ];
+  } catch {}
+
   return [
     ...staticPages,
+    ...blogPages,
     ...cityPages,
     ...healthPages,
     ...categoryPages,
