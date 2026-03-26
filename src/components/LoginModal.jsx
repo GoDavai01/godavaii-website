@@ -15,7 +15,7 @@ function isPhone(str) {
   return /^\d{10}$/.test(str.replace(/\s/g, ""));
 }
 
-export default function LoginModal({ isOpen, onClose }) {
+export default function LoginModal({ isOpen, onClose, onSuccess, message }) {
   const [step, setStep] = useState("input"); // input | otp
   const [identifier, setIdentifier] = useState("");
   const [identifierType, setIdentifierType] = useState(null); // "email" | "phone"
@@ -169,7 +169,7 @@ export default function LoginModal({ isOpen, onClose }) {
         });
         const data = await res.json();
         if (res.ok && data.token) {
-          redirectToApp(data.token, data.refreshToken);
+          handleAuthSuccess(data.token, data.refreshToken);
         } else {
           setError(data.error || "Verification failed");
         }
@@ -182,7 +182,7 @@ export default function LoginModal({ isOpen, onClose }) {
         });
         const data = await res.json();
         if (res.ok && data.token) {
-          redirectToApp(data.token, data.refreshToken);
+          handleAuthSuccess(data.token, data.refreshToken);
         } else {
           setError(data.message || data.error || "Invalid OTP");
         }
@@ -218,7 +218,7 @@ export default function LoginModal({ isOpen, onClose }) {
       });
       const data = await res.json();
       if (res.ok && data.token) {
-        redirectToApp(data.token, data.refreshToken);
+        handleAuthSuccess(data.token, data.refreshToken);
       } else {
         setError(data.error || "Google sign-in failed");
       }
@@ -240,13 +240,22 @@ export default function LoginModal({ isOpen, onClose }) {
     }
   };
 
-  // ─── REDIRECT ───
-  const redirectToApp = (token, refreshToken) => {
-    let url = `${APP_URL}/ai?token=${encodeURIComponent(token)}`;
-    if (refreshToken) {
-      url += `&refreshToken=${encodeURIComponent(refreshToken)}`;
+  // ─── AUTH SUCCESS ───
+  const handleAuthSuccess = (token, refreshToken) => {
+    if (onSuccess) {
+      // Store JWT locally and stay on website
+      localStorage.setItem("godavaii_jwt", token);
+      if (refreshToken) localStorage.setItem("godavaii_refresh_token", refreshToken);
+      onSuccess(token);
+      onClose();
+    } else {
+      // Legacy: redirect to app
+      let url = `${APP_URL}/ai?token=${encodeURIComponent(token)}`;
+      if (refreshToken) {
+        url += `&refreshToken=${encodeURIComponent(refreshToken)}`;
+      }
+      window.location.href = url;
     }
-    window.location.href = url;
   };
 
   // ─── OTP HANDLERS ───
@@ -320,7 +329,7 @@ export default function LoginModal({ isOpen, onClose }) {
               <h2 className="text-2xl font-bold gradient-text">GoDavaii AI</h2>
               <p className="text-white/50 text-sm mt-2">
                 {step === "input"
-                  ? "Sign in to access your AI health assistant"
+                  ? (message || "Sign in to access your AI health assistant")
                   : identifierType === "phone"
                     ? `Enter the OTP sent to +91 ${identifier.trim()}`
                     : `Enter the OTP sent to ${identifier.trim()}`}

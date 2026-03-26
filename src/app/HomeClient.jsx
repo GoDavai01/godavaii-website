@@ -9,6 +9,7 @@ import {
   Languages, Activity, Star, Menu, X,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { slugify } from "@/lib/api";
 import LoginModal from "../components/LoginModal";
 import GlowCard from "../components/GlowCard";
@@ -253,7 +254,9 @@ export default function HomeClient() {
     return () => { document.body.style.overflow = ""; };
   }, [navOpen]);
 
+  const router = useRouter();
   const openLogin = () => setLoginOpen(true);
+  const goToAI = () => router.push("/ai");
 
   const NAV_LINKS = [
     { label: "AI Features", href: "#features" },
@@ -291,7 +294,7 @@ export default function HomeClient() {
               </a>
             ))}
             <button
-              onClick={openLogin}
+              onClick={goToAI}
               className="px-5 py-2 rounded-full bg-gradient-to-r from-brand-600 to-brand-500 text-sm font-semibold hover:from-brand-500 hover:to-brand-400 transition-all btn-shimmer shadow-lg shadow-brand-500/20"
             >
               Try GoDavaii AI
@@ -374,7 +377,7 @@ export default function HomeClient() {
             className="mt-10"
           >
             <button
-              onClick={openLogin}
+              onClick={goToAI}
               className="w-full max-w-2xl mx-auto flex items-center gap-3 px-6 py-4 rounded-2xl glass-strong pulse-glow cursor-text text-left group hover:border-brand-500/30 transition-all"
             >
               <MessageSquare className="h-5 w-5 text-brand-400 shrink-0" />
@@ -398,7 +401,7 @@ export default function HomeClient() {
             {PROMPT_CHIPS.map(({ label, icon: Icon }, i) => (
               <button
                 key={label}
-                onClick={openLogin}
+                onClick={() => router.push(`/ai?q=${encodeURIComponent(label)}`)}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.06] text-sm text-white/50 hover:text-white/80 hover:bg-white/[0.08] hover:border-brand-500/20 transition-all"
                 style={{ animationDelay: `${i * 0.3}s` }}
               >
@@ -664,7 +667,7 @@ export default function HomeClient() {
             Join thousands who trust GoDavaii AI for their health questions every day.
           </p>
           <button
-            onClick={openLogin}
+            onClick={goToAI}
             className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-brand-600 to-brand-400 text-lg font-semibold hover:from-brand-500 hover:to-brand-300 transition-all shadow-lg shadow-brand-500/25 btn-shimmer"
           >
             <Sparkles className="h-5 w-5" />
