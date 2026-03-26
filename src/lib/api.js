@@ -2,10 +2,11 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.godavaii.com";
 
-/** Slugify a medicine name for URL use */
+/** Slugify a medicine/category name for URL use */
 export function slugify(str) {
   return (str || "")
     .toLowerCase()
+    .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 120);

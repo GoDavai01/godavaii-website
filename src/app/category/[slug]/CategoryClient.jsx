@@ -55,7 +55,7 @@ export default function CategoryClient({ name, slug, medicines, categories, faqs
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">{name} Medicines</h1>
-          <p className="text-white/50">{filtered.length} medicines available</p>
+          <p className="text-white/50">Browse medicines below</p>
         </motion.div>
 
         {/* Category pills */}

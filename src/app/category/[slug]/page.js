@@ -19,15 +19,13 @@ export async function generateMetadata({ params }) {
   const categories = extractCategories(medicines);
   const cat = categories.find((c) => c.slug === slug);
   const name = cat?.name || slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-  const count = cat?.count || 0;
-
   return {
     title: `${name} Medicines — Buy Online, Fast Delivery | GoDavaii`,
-    description: `Browse ${name} medicines. Compare prices, find generic alternatives. Order online with fast delivery from verified local pharmacies. Ask GoDavaii AI for health advice.`.slice(0, 160),
+    description: `Browse ${name} medicines online. Compare prices, find affordable generic alternatives & order with fast delivery from verified local pharmacies near you.`.slice(0, 160),
     alternates: { canonical: `/category/${slug}` },
     openGraph: {
-      title: `${name} Medicines | GoDavaii`,
-      description: `${count}+ ${name} medicines available. Fast delivery from verified pharmacies.`,
+      title: `${name} Medicines — Buy Online | GoDavaii`,
+      description: `Shop ${name} medicines at best prices. Generic alternatives, verified pharmacies, fast delivery. Ask GoDavaii AI for free health advice.`,
       type: "website",
     },
   };
@@ -71,7 +69,6 @@ export default async function CategoryPage({ params }) {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: `${name} Medicines`,
-    numberOfItems: medicines.length,
     itemListElement: medicines.slice(0, 20).map((m, i) => ({
       "@type": "ListItem",
       position: i + 1,

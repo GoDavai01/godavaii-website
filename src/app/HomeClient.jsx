@@ -9,6 +9,7 @@ import {
   Languages, Activity, Star, Menu, X,
 } from "lucide-react";
 import Link from "next/link";
+import { slugify } from "@/lib/api";
 import LoginModal from "../components/LoginModal";
 import GlowCard from "../components/GlowCard";
 import AnimatedCounter from "../components/AnimatedCounter";
@@ -521,10 +522,11 @@ export default function HomeClient() {
 
         <div className="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
           {[
-            "Pain Relief", "Diabetes Care", "Heart Care", "Cold & Cough",
-            "Skin Care", "Eye Care", "Antibiotics", "Vitamins",
-            "Gastric Care", "Women Health", "Mental Health", "Joint Care",
-            "Respiratory Care", "Anti Allergic", "Hair Care", "Dental Care",
+            "Pain Relief", "Fever", "Diabetes Care", "Heart & Blood Pressure",
+            "Cold & Cough", "Allergy", "Skin & Hair Care", "Eye & Ear Care",
+            "Infections & Antibiotics", "Vitamins & Daily Health", "Stomach & Digestion",
+            "Women's Health", "Brain & Nerves / Mental Health", "Bone, Joint & Arthritis Care",
+            "Respiratory Care", "Cholesterol & Lipid Control", "Thyroid Care", "Immunity Boosters",
           ].map((cat, i) => (
             <motion.div
               key={cat}
@@ -534,7 +536,7 @@ export default function HomeClient() {
               transition={{ duration: 0.3, delay: i * 0.03 }}
             >
               <Link
-                href={`/category/${cat.toLowerCase().replace(/\s+/g, "-").replace(/&/g, "and")}`}
+                href={`/category/${slugify(cat)}`}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-white/60 text-sm hover:bg-white/[0.08] hover:text-white hover:border-brand-500/20 transition-all"
               >
                 {cat}

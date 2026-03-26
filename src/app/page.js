@@ -2,10 +2,14 @@
 import HomeClient from "./HomeClient";
 
 export const metadata = {
-  title: "GoDavaii AI — Your AI Health Assistant in 16 Indian Languages",
+  title: "GoDavaii AI — Buy Medicines Online | AI Health Assistant | 30-Min Delivery India",
   description:
-    "Ask about symptoms, medicines, prescriptions, lab reports, X-rays. AI-powered health assistant with voice support in Hindi, Tamil, Telugu, Bengali & more. Order medicines online with 30-min delivery.",
+    "Buy medicines online at best prices. AI health assistant in Hindi, Tamil, Telugu & 16 Indian languages. Compare generic alternatives, upload prescriptions, get 30-min delivery from verified pharmacies near you.",
   alternates: { canonical: "/" },
+  openGraph: {
+    title: "GoDavaii AI — Buy Medicines Online | AI Health Assistant India",
+    description: "India's smartest healthcare platform. Buy medicines online, compare prices, find generics, get AI health advice in your language. Fast delivery from local pharmacies.",
+  },
 };
 
 export default function Page() {
