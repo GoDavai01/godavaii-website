@@ -5,16 +5,10 @@ import CategoryClient from "./CategoryClient";
 export const revalidate = 86400;
 export const dynamicParams = true;
 
-// Only pre-generate a few categories at build time — rest use ISR on first visit
+// Don't pre-build ANY category pages — all use ISR on first visit
+// This avoids fetchAllMedicines() timeout during Vercel build
 export async function generateStaticParams() {
-  // Hardcode the top 5 categories to avoid calling the API during build
-  return [
-    { slug: "all" },
-    { slug: "fever" },
-    { slug: "pain-relief" },
-    { slug: "cold-and-cough" },
-    { slug: "allergy" },
-  ];
+  return [];
 }
 
 export async function generateMetadata({ params }) {
