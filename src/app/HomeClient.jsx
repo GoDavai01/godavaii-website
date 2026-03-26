@@ -418,7 +418,7 @@ export default function HomeClient() {
             transition={{ duration: 0.6, delay: 0.9 }}
             className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto"
           >
-            <AnimatedCounter label="Medicines" value="Thousands+" />
+            <AnimatedCounter label="Medicines" value="1000s+" />
             <AnimatedCounter label="Languages" value={16} />
             <AnimatedCounter label="AI Intelligence" value="Advanced" />
             <AnimatedCounter label="Delivery" value={30} suffix=" min" />
@@ -485,23 +485,32 @@ export default function HomeClient() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {[
-            "Paracetamol", "Dolo 650", "Azithromycin", "Amoxicillin",
-            "Cetirizine", "Pantoprazole", "Metformin", "Atorvastatin",
-            "Omeprazole", "Ibuprofen", "Montelukast", "Crocin",
-          ].map((name, i) => (
+            { name: "Paracetamol", slug: "paracetamol" },
+            { name: "Dolo 650", slug: "dolo-650mg-tablets" },
+            { name: "Azithromycin", slug: "azee-500-tablet" },
+            { name: "Amoxicillin", slug: "augmentin-dds-suspension" },
+            { name: "Cetirizine", slug: "cetirizine-10-mg" },
+            { name: "Pantoprazole", slug: "pantoprazole" },
+            { name: "Metformin", slug: "metformin" },
+            { name: "Atorvastatin", slug: "atorva-20-tablet" },
+            { name: "Omeprazole", slug: "omeprazole-20-mg" },
+            { name: "Ibuprofen", slug: "ibuprofen-400-mg" },
+            { name: "Montelukast", slug: "air-m-tablets" },
+            { name: "Crocin", slug: "crocin-650-tablets" },
+          ].map((med, i) => (
             <motion.div
-              key={name}
+              key={med.name}
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: i * 0.03 }}
             >
               <Link
-                href={`/medicine/${name.toLowerCase().replace(/\s+/g, "-")}`}
+                href={`/medicine/${med.slug}`}
                 className="block rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 hover:bg-white/[0.06] hover:border-brand-500/20 transition-all text-center group"
               >
                 <Pill className="h-6 w-6 text-brand-400/50 mx-auto mb-2 group-hover:text-brand-400 transition-colors" />
-                <p className="text-white/70 text-sm font-medium group-hover:text-white transition-colors">{name}</p>
+                <p className="text-white/70 text-sm font-medium group-hover:text-white transition-colors">{med.name}</p>
               </Link>
             </motion.div>
           ))}

@@ -59,15 +59,19 @@ export async function fetchAllMedicines() {
 
 /** Fetch a single medicine by slug — searches ALL pages until found */
 export async function fetchMedicineBySlug(slug) {
-  // First check cache
+  // First check cache for exact match
   if (_medicineCache && _medicineCache.length > 0) {
     const cached = _medicineCache.find((m) => slugify(m.name) === slug);
     if (cached) return cached;
+    // Partial match fallback — if slug is "cetirizine", find "cetirizine-10-mg"
+    const partial = _medicineCache.find((m) => slugify(m.name).startsWith(slug + "-"));
+    if (partial) return partial;
   }
 
-  // Search page by page until we find the medicine (avoids loading all 4000+ into memory)
+  // Search page by page until we find the medicine
   const PAGE_SIZE = 200;
   const MAX_PAGES = 50;
+  let partialMatch = null;
 
   try {
     for (let page = 1; page <= MAX_PAGES; page++) {
@@ -81,9 +85,14 @@ export async function fetchMedicineBySlug(slug) {
       const items = Array.isArray(data) ? data : (data.items || []);
       const hasMore = Array.isArray(data) ? false : data.hasMore;
 
-      // Check if the medicine is on this page
+      // Check exact match first
       const found = items.find((m) => slugify(m.name) === slug);
       if (found) return found;
+
+      // Track first partial match (slug starts with search term)
+      if (!partialMatch) {
+        partialMatch = items.find((m) => slugify(m.name).startsWith(slug + "-"));
+      }
 
       // Stop if no more pages
       if (!hasMore || items.length < PAGE_SIZE) break;
@@ -92,7 +101,8 @@ export async function fetchMedicineBySlug(slug) {
     console.error("fetchMedicineBySlug error:", err.message);
   }
 
-  return null;
+  // Return partial match if no exact match found
+  return partialMatch || null;
 }
 
 /** Fetch alternatives by compositionKey */
