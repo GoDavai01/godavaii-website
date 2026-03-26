@@ -6,19 +6,18 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Pill, ShieldCheck, Sparkles, ArrowRight,
-  Package, Tag, Building2, FileText, ChevronDown,
+  Package, Tag, Building2, FileText, AlertTriangle,
+  CheckCircle2, XCircle, Thermometer, Baby, Syringe, Box,
 } from "lucide-react";
 import LoginModal from "@/components/LoginModal";
 import FAQAccordion from "@/components/FAQAccordion";
 import { slugify } from "@/lib/api";
 
-export default function MedicineClient({ med, alternatives, faqs, categorySlug, categoryName }) {
+export default function MedicineClient({ med, alternatives, content, categorySlug, categoryName }) {
   const [loginOpen, setLoginOpen] = useState(false);
   const discount = med.mrp && med.price && med.mrp > med.price
     ? Math.round(((med.mrp - med.price) / med.mrp) * 100)
     : 0;
-
-  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://app.godavaii.com";
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans">
@@ -131,25 +130,114 @@ export default function MedicineClient({ med, alternatives, faqs, categorySlug, 
           </div>
         </motion.div>
 
-        {/* Description */}
-        {med.description && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-8"
-          >
-            <h2 className="text-xl font-semibold text-white mb-3">About {med.name}</h2>
-            <div className="text-white/60 text-sm leading-relaxed whitespace-pre-line">{med.description}</div>
-          </motion.div>
-        )}
+        {/* ─── ABOUT ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <FileText className="h-5 w-5 text-brand-400" /> About {med.name}
+          </h2>
+          <div className="text-white/60 text-sm leading-relaxed whitespace-pre-line">{content.about}</div>
+        </motion.div>
 
-        {/* Alternatives */}
+        {/* ─── USES & BENEFITS ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-400" /> Uses & Benefits
+          </h2>
+          <ul className="space-y-2">
+            {content.uses.map((use, i) => (
+              <li key={i} className="flex items-start gap-3 text-white/60 text-sm">
+                <CheckCircle2 className="h-4 w-4 text-green-400/60 mt-0.5 shrink-0" />
+                {use}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        {/* ─── SIDE EFFECTS ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5 text-amber-400" /> Side Effects
+          </h2>
+          <ul className="space-y-2">
+            {content.sideEffects.map((effect, i) => (
+              <li key={i} className="flex items-start gap-3 text-white/60 text-sm">
+                <XCircle className="h-4 w-4 text-amber-400/60 mt-0.5 shrink-0" />
+                {effect}
+              </li>
+            ))}
+          </ul>
+          <p className="text-white/40 text-xs mt-4 italic">
+            This is not a complete list. Consult your doctor if you experience any unusual symptoms.
+          </p>
+        </motion.div>
+
+        {/* ─── HOW TO USE ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <Syringe className="h-5 w-5 text-blue-400" /> How to Use
+          </h2>
+          <p className="text-white/60 text-sm leading-relaxed">{content.howToUse}</p>
+        </motion.div>
+
+        {/* ─── SAFETY ADVICE ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <ShieldCheck className="h-5 w-5 text-brand-400" /> Safety Advice
+          </h2>
+          <ul className="space-y-3">
+            {content.safetyAdvice.map((advice, i) => (
+              <li key={i} className="flex items-start gap-3 text-white/60 text-sm">
+                <ShieldCheck className="h-4 w-4 text-brand-400/60 mt-0.5 shrink-0" />
+                {advice}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        {/* ─── STORAGE ─── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
+          className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6 mb-6"
+        >
+          <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+            <Box className="h-5 w-5 text-purple-400" /> Storage
+          </h2>
+          <p className="text-white/60 text-sm leading-relaxed">{content.storage}</p>
+        </motion.div>
+
+        {/* ─── ALTERNATIVES ─── */}
         {alternatives && alternatives.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.4 }}
             className="mb-8"
           >
             <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
@@ -173,15 +261,32 @@ export default function MedicineClient({ med, alternatives, faqs, categorySlug, 
           </motion.div>
         )}
 
-        {/* FAQ */}
+        {/* ─── FAQ ─── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.45 }}
           className="mb-12"
         >
           <h2 className="text-xl font-semibold text-white mb-4">Frequently Asked Questions</h2>
-          <FAQAccordion items={faqs} />
+          <FAQAccordion items={content.faqs} />
+        </motion.div>
+
+        {/* Ask AI CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="rounded-2xl bg-gradient-to-r from-brand-900/30 to-brand-800/20 border border-brand-500/10 p-8 mb-8 text-center"
+        >
+          <h3 className="text-lg font-semibold text-white mb-2">Have questions about {med.name}?</h3>
+          <p className="text-white/50 text-sm mb-4">Ask GoDavaii AI for personalized health advice in 16 Indian languages</p>
+          <button
+            onClick={() => setLoginOpen(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 font-semibold hover:from-brand-500 hover:to-brand-400 transition-all shadow-lg shadow-brand-500/20"
+          >
+            <Sparkles className="h-4 w-4" /> Ask GoDavaii AI <ArrowRight className="h-4 w-4" />
+          </button>
         </motion.div>
 
         {/* Related Category */}

@@ -414,10 +414,10 @@ export default function HomeClient() {
             transition={{ duration: 0.6, delay: 0.9 }}
             className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto"
           >
-            <AnimatedCounter label="Medicines" value="Thousands" prefix="" suffix="+" />
+            <AnimatedCounter label="Medicines" value="Thousands+" />
             <AnimatedCounter label="Languages" value={16} />
             <AnimatedCounter label="AI Intelligence" value="Advanced" />
-            <AnimatedCounter label="Min Delivery" value={30} suffix=" min" />
+            <AnimatedCounter label="Delivery" value={30} suffix=" min" />
           </motion.div>
         </div>
 

@@ -33,7 +33,7 @@ export default function AnimatedCounter({ label, value, suffix = "", prefix = ""
       transition={{ duration: 0.5 }}
       className="text-center"
     >
-      <div className="text-3xl md:text-4xl font-bold gradient-text">
+      <div className="text-3xl md:text-4xl font-bold gradient-text whitespace-nowrap">
         {prefix}
         {typeof value === "number" ? display.toLocaleString() : value}
         {suffix}

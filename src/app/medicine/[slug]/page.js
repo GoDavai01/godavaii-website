@@ -1,5 +1,6 @@
 // app/medicine/[slug]/page.js — Individual medicine SEO page
 import { fetchAllMedicines, fetchMedicineBySlug, fetchAlternatives, slugify } from "@/lib/api";
+import { generateMedicineContent } from "@/lib/medicineContent";
 import MedicineClient from "./MedicineClient";
 
 export const revalidate = 86400; // 24h ISR
@@ -7,8 +8,6 @@ export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const medicines = await fetchAllMedicines();
-  // Pre-generate top 50 medicines at build time; remaining 3700+ use ISR on-demand (dynamicParams=true)
-  // ALL medicines are in the sitemap — Google discovers and crawls them all
   const seen = new Set();
   const params = [];
   for (const m of medicines) {
@@ -66,20 +65,15 @@ export default async function MedicinePage({ params }) {
   const categories = Array.isArray(med.category) ? med.category : [med.category || "Miscellaneous"];
   const primaryCategory = categories.find((c) => c !== "Miscellaneous") || categories[0];
 
-  // Build FAQs
-  const faqs = [
-    { q: `What is ${med.name} used for?`, a: med.description || `${med.name} is a ${med.type || "medicine"} containing ${med.composition || "active ingredients"}. Consult your doctor or ask GoDavaii AI for detailed usage information.` },
-    { q: `What are the side effects of ${med.name}?`, a: `Side effects may vary per individual. Common side effects depend on the active ingredient${med.composition ? ` (${med.composition})` : ""}. Ask GoDavaii AI or consult your doctor for personalized advice.` },
-    { q: `What is the price of ${med.name}?`, a: med.price ? `${med.name} is available at ₹${med.price}${med.mrp && med.mrp > med.price ? ` (MRP ₹${med.mrp}, save ${Math.round(((med.mrp - med.price) / med.mrp) * 100)}%)` : ""}. Prices may vary by pharmacy. Order on GoDavaii for the best prices.` : `Check the latest price on GoDavaii app.` },
-    { q: `Is ${med.name} available without prescription?`, a: med.prescriptionRequired ? `No, ${med.name} requires a valid prescription. Upload your prescription on GoDavaii to order.` : `${med.name} is available without a prescription. You can order it directly on GoDavaii.` },
-  ];
+  // Generate rich content
+  const content = generateMedicineContent(med);
 
   // Structured data
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: med.name,
-    description: med.description || `${med.name} - ${med.composition || med.type || "medicine"}`,
+    description: content.about.slice(0, 200),
     ...(med.img && { image: med.img }),
     brand: { "@type": "Brand", name: med.brand || med.company || "Generic" },
     category: primaryCategory,
@@ -99,12 +93,13 @@ export default async function MedicinePage({ params }) {
     ...(med.composition && { activeIngredient: med.composition }),
     prescriptionStatus: med.prescriptionRequired ? "PrescriptionOnly" : "OTC",
     ...(med.type && { administrationRoute: med.type }),
+    description: content.about.slice(0, 300),
   };
 
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
+    mainEntity: content.faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -127,7 +122,13 @@ export default async function MedicinePage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(drugSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <MedicineClient med={med} alternatives={alternatives} faqs={faqs} categorySlug={slugify(primaryCategory)} categoryName={primaryCategory} />
+      <MedicineClient
+        med={med}
+        alternatives={alternatives}
+        content={content}
+        categorySlug={slugify(primaryCategory)}
+        categoryName={primaryCategory}
+      />
     </>
   );
 }
