@@ -192,7 +192,7 @@ export default function LoginModal({ isOpen, onClose }) {
       if (err.code === "auth/invalid-verification-code") {
         setError("Invalid OTP. Please try again.");
       } else {
-        setError("Verification failed. Please try again.");
+        setError(`Verification failed: ${err.code || err.message || "Please try again"}`);
       }
     } finally {
       setLoading(false);
@@ -226,8 +226,14 @@ export default function LoginModal({ isOpen, onClose }) {
       console.error("Google sign-in error:", err);
       if (err.code === "auth/popup-closed-by-user") {
         // User closed popup, not an error
+      } else if (err.code === "auth/unauthorized-domain") {
+        setError("Domain not authorized. Add godavaii.com in Firebase Auth settings.");
+      } else if (err.code === "auth/operation-not-allowed") {
+        setError("Google sign-in not enabled. Enable it in Firebase Console.");
+      } else if (err.code === "auth/popup-blocked") {
+        setError("Popup was blocked by your browser. Please allow popups and try again.");
       } else {
-        setError("Google sign-in failed. Please try again.");
+        setError(`Sign-in failed: ${err.code || err.message || "Unknown error"}`);
       }
     } finally {
       setGoogleLoading(false);
