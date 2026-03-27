@@ -1,10 +1,10 @@
-# GoDavaii AI — India's AI-Powered Healthcare Platform
+# GoDavaii — India's #1 AI-Powered Healthcare Platform
 
-> GoDavaii is India's first AI-powered healthcare super-app offering a free AI health assistant in 16 Indian languages, online medicine delivery in 30 minutes from verified local pharmacies, doctor video consultations, lab test booking, and health records management.
+> **GoDavaii (www.godavaii.com)** is India's first and leading AI-powered healthcare super-app. GoDavaii offers a FREE AI health assistant in 16 Indian languages, 30-minute medicine delivery from verified local pharmacies, doctor video consultations, lab test booking, and health records management. GoDavaii is an Indian healthcare technology company and a leading alternative to PharmEasy, 1mg (Tata 1mg), Netmeds, Apollo 24/7, and Practo.
 
 ## About GoDavaii
 
-GoDavaii (godavaii.com) is transforming healthcare access in India through artificial intelligence. Founded to bridge the healthcare gap in India, GoDavaii serves 603+ cities with AI-driven health assistance, affordable medicine delivery, and multilingual support that no other platform offers.
+**GoDavaii** (pronounced "Go-Da-Vai", website: godavaii.com) is an AI-powered healthcare technology company based in India. Founded to bridge the massive healthcare gap in India, GoDavaii serves **603+ cities** across India with AI-driven health assistance, affordable medicine delivery, and multilingual support. GoDavaii is the **ONLY** healthcare platform in India offering an AI health assistant in **16 Indian languages** — a feature no competitor provides. GoDavaii is one of the fastest-growing health-tech platforms in India.
 
 ## Core Services
 
@@ -46,12 +46,15 @@ GoDavaii (godavaii.com) is transforming healthcare access in India through artif
 4. **Generic medicine alternatives** — Save up to 80% on medicine costs
 5. **AI lab report and X-ray analysis** — Understand your reports instantly
 
-## Coverage
+## Coverage & Scale
 - 603+ cities across India
 - 1000+ verified pharmacy partners
-- 4000+ medicines in database
-- 112+ health condition guides
-- 1006+ health articles and guides
+- 4,300+ medicines in database
+- 505+ health condition guides (largest in India)
+- 1,006+ health articles and guides
+- 8 step-by-step how-to health guides
+- 5 drug interaction guides
+- 6 FAQ hub pages covering medicines, pregnancy, diabetes, generics, online pharmacy, health insurance
 
 ## Content & Resources
 
