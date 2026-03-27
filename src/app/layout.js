@@ -320,6 +320,35 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
+
+        {/* VideoObject schema — Video content for AI search visibility */}
+        <Script
+          id="ld-video"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "VideoObject",
+              name: "How to Use GoDavaii AI Health Assistant",
+              description:
+                "Learn how to use GoDavaii's free AI health assistant to check symptoms, analyze prescriptions, read lab reports, and find affordable generic medicines in 16 Indian languages.",
+              thumbnailUrl: `${SITE_URL}${OG_IMAGE}`,
+              uploadDate: "2026-01-15T08:00:00+05:30",
+              contentUrl: `${SITE_URL}/ai`,
+              embedUrl: `${SITE_URL}/ai`,
+              duration: "PT3M",
+              publisher: {
+                "@type": "Organization",
+                name: "GoDavaii",
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${SITE_URL}${OG_IMAGE}`,
+                },
+              },
+            }),
+          }}
+        />
       </body>
     </html>
   );

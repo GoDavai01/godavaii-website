@@ -3,6 +3,7 @@ import Link from "next/link";
 import { drugInteractions } from "@/data/drugInteractions";
 import { Sparkles, ArrowRight, ArrowLeft, AlertTriangle, CheckCircle, XCircle, Pill } from "lucide-react";
 import FAQAccordion from "@/components/FAQAccordion";
+import MedicalReviewBadge from "@/components/MedicalReviewBadge";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
@@ -148,7 +149,9 @@ export default async function DrugInteractionPage({ params }) {
               {interaction.title}
             </h1>
             <p className="text-white/50 text-lg leading-relaxed" data-speakable="true">{interaction.summary}</p>
-            <p className="text-white/30 text-sm mt-3">Last updated: {new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })} | Reviewed by GoDavaii Health Team</p>
+            <div className="mt-4">
+              <MedicalReviewBadge />
+            </div>
           </header>
 
           {/* Quick Answer */}

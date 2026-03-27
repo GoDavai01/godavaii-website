@@ -7,6 +7,8 @@ import { getAllArticles } from "@/data/blogIndex";
 import { comparisons } from "@/data/comparisons";
 import { faqHubs } from "@/data/faqHubs";
 import { drugInteractions } from "@/data/drugInteractions";
+import { howToGuides } from "@/data/howToGuides";
+import { alternativeToPages } from "@/data/alternativeTo";
 
 export const revalidate = 86400; // Regenerate sitemap every 24 hours (ISR)
 
@@ -183,6 +185,22 @@ export default async function sitemap() {
     priority: 0.8,
   }));
 
+  // HowTo guide pages (AI search optimization — step-by-step content)
+  const howToPages = howToGuides.map((g) => ({
+    url: `${SITE_URL}/how-to/${g.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  // "Alternative To" pages (AI search optimization — competitor displacement)
+  const alternativePages = alternativeToPages.map((p) => ({
+    url: `${SITE_URL}/alternatives/${p.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  }));
+
   return [
     ...staticPages,
     ...blogPages,
@@ -193,5 +211,7 @@ export default async function sitemap() {
     ...comparisonPages,
     ...faqPages,
     ...drugInteractionPages,
+    ...howToPages,
+    ...alternativePages,
   ];
 }

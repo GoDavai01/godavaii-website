@@ -87,11 +87,35 @@ export default async function HealthConditionPage({ params }) {
     ],
   };
 
+  const medicalWebPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: `${cond.name} — Symptoms, Medicines & Health Guide`,
+    description: cond.description,
+    url: `https://www.godavaii.com/health/${condition}`,
+    lastReviewed: new Date().toISOString(),
+    dateModified: new Date().toISOString(),
+    reviewedBy: {
+      "@type": "Organization",
+      name: "GoDavaii Health Team",
+      url: "https://www.godavaii.com",
+    },
+    medicalAudience: {
+      "@type": "MedicalAudience",
+      audienceType: "Patient",
+    },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", "[data-speakable]"],
+    },
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(conditionSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(medicalWebPageSchema) }} />
       <ConditionClient cond={cond} related={related} faqs={faqs} />
     </>
   );

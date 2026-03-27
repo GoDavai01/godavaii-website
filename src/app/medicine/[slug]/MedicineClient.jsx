@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import LoginModal from "@/components/LoginModal";
 import FAQAccordion from "@/components/FAQAccordion";
+import MedicalReviewBadge from "@/components/MedicalReviewBadge";
 import { slugify } from "@/lib/api";
 
 export default function MedicineClient({ med, alternatives, content, categorySlug, categoryName }) {
@@ -305,6 +306,18 @@ export default function MedicineClient({ med, alternatives, content, categorySlu
             </div>
           </motion.div>
         )}
+
+        {/* Medical Review Badge */}
+        <div className="mb-6">
+          <MedicalReviewBadge />
+        </div>
+
+        {/* Medical Disclaimer */}
+        <div className="rounded-xl bg-amber-500/5 border border-amber-500/10 p-5 mb-10">
+          <p className="text-amber-400/80 text-sm leading-relaxed">
+            <strong>Medical Disclaimer:</strong> This medicine information is for educational purposes only. Always consult your doctor or pharmacist before taking any medication. Self-medication can be harmful. GoDavaii&apos;s AI assistant can provide additional guidance in 16 Indian languages.
+          </p>
+        </div>
 
         {/* ─── FAQ ─── */}
         <motion.div

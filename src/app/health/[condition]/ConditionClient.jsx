@@ -10,6 +10,7 @@ import {
 import LoginModal from "@/components/LoginModal";
 import GlowCard from "@/components/GlowCard";
 import FAQAccordion from "@/components/FAQAccordion";
+import MedicalReviewBadge from "@/components/MedicalReviewBadge";
 
 export default function ConditionClient({ cond, related, faqs }) {
   const [loginOpen, setLoginOpen] = useState(false);
@@ -47,6 +48,9 @@ export default function ConditionClient({ cond, related, faqs }) {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
           <h1 className="text-3xl md:text-5xl font-bold gradient-text mb-4">{cond.name}</h1>
           <p className="text-white/60 text-lg leading-relaxed max-w-3xl">{cond.description}</p>
+          <div className="mt-4">
+            <MedicalReviewBadge />
+          </div>
         </motion.div>
 
         {/* Symptoms */}
@@ -140,6 +144,13 @@ export default function ConditionClient({ cond, related, faqs }) {
             You can book a doctor consultation instantly through the GoDavaii app.
           </p>
         </motion.div>
+
+        {/* Medical Disclaimer */}
+        <div className="rounded-xl bg-amber-500/5 border border-amber-500/10 p-5 mb-10">
+          <p className="text-amber-400/80 text-sm leading-relaxed">
+            <strong>Medical Disclaimer:</strong> This information is for educational purposes only and should not replace professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider before starting any treatment. GoDavaii&apos;s AI assistant can provide general health guidance in 16 Indian languages.
+          </p>
+        </div>
 
         {/* FAQ */}
         <div className="mb-10">

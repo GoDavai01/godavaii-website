@@ -3,6 +3,7 @@ import Link from "next/link";
 import { faqHubs } from "@/data/faqHubs";
 import { Sparkles, ArrowRight, ArrowLeft, MessageCircleQuestion, Search } from "lucide-react";
 import FAQAccordion from "@/components/FAQAccordion";
+import MedicalReviewBadge from "@/components/MedicalReviewBadge";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
@@ -150,7 +151,9 @@ export default async function FAQHubPage({ params }) {
               {hub.heading}
             </h1>
             <p className="text-white/50 text-lg leading-relaxed" data-speakable="true">{hub.description}</p>
-            <p className="text-white/30 text-sm mt-3">Last updated: {new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })} | Reviewed by GoDavaii Health Team</p>
+            <div className="mt-4">
+              <MedicalReviewBadge />
+            </div>
           </header>
 
           {/* Quick Jump */}
