@@ -711,22 +711,25 @@ export default function HomeClient() {
             <div>
               <h4 className="text-white/70 font-semibold text-sm mb-4">Platform</h4>
               <div className="space-y-2">
-                <a href="#features" className="block text-white/40 text-sm hover:text-white/70 transition-colors">AI Features</a>
-                <Link href="/category/all" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Medicines</Link>
-                <a href="#languages" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Languages</a>
-                <a href="#faq" className="block text-white/40 text-sm hover:text-white/70 transition-colors">FAQ</a>
+                <Link href="/category/all" className="block text-white/40 text-sm hover:text-white/70 transition-colors">All Medicines</Link>
+                <Link href="/health" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Health A-Z (500+)</Link>
                 <Link href="/blog" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Health Blog</Link>
+                <Link href="/how-to" className="block text-white/40 text-sm hover:text-white/70 transition-colors">How-To Guides</Link>
+                <Link href="/faq" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Health FAQs</Link>
+                <Link href="/drug-interactions" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Drug Interactions</Link>
               </div>
             </div>
 
-            {/* Health Topics */}
+            {/* Compare & Explore */}
             <div>
-              <h4 className="text-white/70 font-semibold text-sm mb-4">Health Topics</h4>
+              <h4 className="text-white/70 font-semibold text-sm mb-4">Compare & Explore</h4>
               <div className="space-y-2">
+                <Link href="/compare" className="block text-white/40 text-sm hover:text-white/70 transition-colors">GoDavaii vs Others</Link>
+                <Link href="/alternatives" className="block text-white/40 text-sm hover:text-white/70 transition-colors">App Alternatives</Link>
                 <Link href="/health/diabetes" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Diabetes</Link>
                 <Link href="/health/hypertension" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Hypertension</Link>
-                <Link href="/health/common-cold" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Common Cold</Link>
-                <Link href="/health/fever" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Fever</Link>
+                <Link href="/health/heart-attack" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Heart Disease</Link>
+                <Link href="/health/anxiety" className="block text-white/40 text-sm hover:text-white/70 transition-colors">Anxiety</Link>
               </div>
             </div>
 
