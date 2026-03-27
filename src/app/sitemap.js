@@ -61,35 +61,62 @@ export default async function sitemap() {
   let categoryPages = [];
 
   try {
-    // Fetch all medicines with a 45-second timeout (Vercel build has 60s limit)
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
-
     const allItems = [];
     const PAGE_SIZE = 200;
-    const MAX_PAGES = 50;
+    const MAX_PAGES = 100; // Increased from 50 to support 10,000+ medicines
+    const PER_PAGE_TIMEOUT = 15000; // 15 seconds per page (not global)
+    const BATCH_SIZE = 5; // Fetch 5 pages in parallel
 
-    for (let page = 1; page <= MAX_PAGES; page++) {
+    // Helper: fetch a single page with its own timeout
+    async function fetchPage(page) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), PER_PAGE_TIMEOUT);
       try {
         const res = await fetch(
-          `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1`,
+          `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1&catalogLimit=50000`,
           { signal: controller.signal, cache: "no-store" }
         );
-        if (!res.ok) break;
-        const data = await res.json();
-        const items = Array.isArray(data) ? data : (data.items || []);
-        allItems.push(...items);
-        if (Array.isArray(data) || !data.hasMore || items.length < PAGE_SIZE) break;
-      } catch (fetchErr) {
-        if (fetchErr.name === "AbortError") {
-          console.log(`Sitemap: timeout after ${allItems.length} medicines on page ${page}`);
-          break;
-        }
-        break;
+        clearTimeout(timeout);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch {
+        clearTimeout(timeout);
+        return null;
       }
     }
 
-    clearTimeout(timeout);
+    // Fetch page 1 first to get total count
+    const firstData = await fetchPage(1);
+    if (firstData) {
+      const items = Array.isArray(firstData) ? firstData : (firstData.items || []);
+      allItems.push(...items);
+
+      if (!Array.isArray(firstData) && firstData.hasMore && items.length >= PAGE_SIZE) {
+        const totalPages = firstData.totalPages || Math.ceil((firstData.total || 5000) / PAGE_SIZE);
+        const pagesToFetch = Math.min(totalPages, MAX_PAGES);
+
+        // Fetch remaining pages in parallel batches (like api.js does)
+        for (let i = 2; i <= pagesToFetch; i += BATCH_SIZE) {
+          const batch = [];
+          for (let p = i; p < i + BATCH_SIZE && p <= pagesToFetch; p++) batch.push(p);
+
+          const results = await Promise.allSettled(batch.map((p) => fetchPage(p)));
+          let gotEmpty = false;
+          for (const r of results) {
+            if (r.status === "fulfilled" && r.value) {
+              const items = Array.isArray(r.value) ? r.value : (r.value.items || []);
+              allItems.push(...items);
+              if (items.length < PAGE_SIZE) gotEmpty = true;
+            }
+          }
+          if (gotEmpty) break; // No more data
+        }
+      }
+
+      console.log(`Sitemap: fetched ${allItems.length} medicines successfully`);
+    } else {
+      console.error("Sitemap: failed to fetch page 1 from API");
+    }
 
     // Deduplicate by slug
     const seen = new Set();
@@ -126,6 +153,8 @@ export default async function sitemap() {
         priority: 0.7,
       })),
     ];
+
+    console.log(`Sitemap: ${medicinePages.length} medicine pages, ${categoryPages.length} category pages`);
   } catch (err) {
     console.error("Sitemap medicine fetch error:", err.message);
   }

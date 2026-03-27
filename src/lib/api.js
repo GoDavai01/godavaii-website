@@ -17,17 +17,18 @@ let _medicineCache = null;
 let _medicineCacheTime = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes for server-side cache
 
-/** Fetch ALL medicines via parallel pagination (up to 10,000) */
+/** Fetch ALL medicines via parallel pagination (up to 50,000) */
 export async function fetchAllMedicines() {
   const now = Date.now();
   if (_medicineCache && (now - _medicineCacheTime) < CACHE_TTL) return _medicineCache;
 
   const PAGE_SIZE = 200;
+  const MAX_PAGES = 100; // Support up to 20,000 medicines (100 × 200)
 
   try {
     // First, fetch page 1 to know total pages
     const firstRes = await fetch(
-      `${API_URL}/api/medicines/all?paged=1&page=1&limit=${PAGE_SIZE}&catalogFallback=1`,
+      `${API_URL}/api/medicines/all?paged=1&page=1&limit=${PAGE_SIZE}&catalogFallback=1&catalogLimit=50000`,
       { next: { revalidate: 86400 } }
     );
     if (!firstRes.ok) return [];
@@ -42,10 +43,10 @@ export async function fetchAllMedicines() {
     const allItems = [...(firstData.items || [])];
 
     if (firstData.hasMore && (firstData.items || []).length >= PAGE_SIZE) {
-      // Estimate total pages and fetch remaining in PARALLEL (batches of 5)
+      // Use totalPages from backend (now returned), or estimate
       const totalPages = firstData.totalPages || Math.ceil((firstData.total || 5000) / PAGE_SIZE);
       const remainingPages = [];
-      for (let p = 2; p <= Math.min(totalPages, 50); p++) remainingPages.push(p);
+      for (let p = 2; p <= Math.min(totalPages, MAX_PAGES); p++) remainingPages.push(p);
 
       // Fetch in parallel batches of 5 pages
       const BATCH_SIZE = 5;
@@ -54,17 +55,20 @@ export async function fetchAllMedicines() {
         const results = await Promise.allSettled(
           batch.map((page) =>
             fetch(
-              `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1`,
+              `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1&catalogLimit=50000`,
               { next: { revalidate: 86400 } }
             ).then((r) => (r.ok ? r.json() : null))
           )
         );
+        let gotEmpty = false;
         for (const r of results) {
           if (r.status === "fulfilled" && r.value) {
             const items = Array.isArray(r.value) ? r.value : (r.value.items || []);
             allItems.push(...items);
+            if (items.length < PAGE_SIZE) gotEmpty = true;
           }
         }
+        if (gotEmpty) break; // No more data
       }
     }
 
