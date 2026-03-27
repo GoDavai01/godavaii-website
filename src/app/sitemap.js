@@ -1,9 +1,12 @@
-// app/sitemap.js — Dynamic sitemap for 6000+ pages
+// app/sitemap.js — Dynamic sitemap for 6000+ pages (AI Search Optimized)
 // Uses ISR (revalidates every 24h) so it doesn't block the build
 import { slugify } from "@/lib/api";
 import { conditions } from "@/data/conditions";
 import { cities } from "@/data/cities";
 import { getAllArticles } from "@/data/blogIndex";
+import { comparisons } from "@/data/comparisons";
+import { faqHubs } from "@/data/faqHubs";
+import { drugInteractions } from "@/data/drugInteractions";
 
 export const revalidate = 86400; // Regenerate sitemap every 24 hours (ISR)
 
@@ -127,6 +130,30 @@ export default async function sitemap() {
     console.error("Sitemap medicine fetch error:", err.message);
   }
 
+  // Comparison pages (AI search optimization — competitor comparisons)
+  const comparisonPages = comparisons.map((c) => ({
+    url: `${SITE_URL}/compare/${c.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.9, // High priority — these are key for AI search visibility
+  }));
+
+  // FAQ Hub pages (AI search optimization — FAQ-style content)
+  const faqPages = faqHubs.map((h) => ({
+    url: `${SITE_URL}/faq/${h.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  // Drug interaction pages (AI search optimization — high-value queries)
+  const drugInteractionPages = drugInteractions.map((d) => ({
+    url: `${SITE_URL}/drug-interactions/${d.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
   return [
     ...staticPages,
     ...blogPages,
@@ -134,5 +161,8 @@ export default async function sitemap() {
     ...healthPages,
     ...categoryPages,
     ...medicinePages,
+    ...comparisonPages,
+    ...faqPages,
+    ...drugInteractionPages,
   ];
 }

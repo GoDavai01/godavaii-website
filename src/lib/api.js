@@ -17,92 +17,79 @@ let _medicineCache = null;
 let _medicineCacheTime = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes for server-side cache
 
-/** Fetch ALL medicines via pagination (up to 10,000) */
+/** Fetch ALL medicines via parallel pagination (up to 10,000) */
 export async function fetchAllMedicines() {
   const now = Date.now();
   if (_medicineCache && (now - _medicineCacheTime) < CACHE_TTL) return _medicineCache;
 
-  const allItems = [];
-  const PAGE_SIZE = 200; // API max per request
-  const MAX_PAGES = 50; // Safety limit (50 * 200 = 10,000 max)
+  const PAGE_SIZE = 200;
 
   try {
-    for (let page = 1; page <= MAX_PAGES; page++) {
-      const res = await fetch(
-        `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1`,
-        { next: { revalidate: 86400 } }
-      );
-      if (!res.ok) break;
+    // First, fetch page 1 to know total pages
+    const firstRes = await fetch(
+      `${API_URL}/api/medicines/all?paged=1&page=1&limit=${PAGE_SIZE}&catalogFallback=1`,
+      { next: { revalidate: 86400 } }
+    );
+    if (!firstRes.ok) return [];
+    const firstData = await firstRes.json();
 
-      const data = await res.json();
+    if (Array.isArray(firstData)) {
+      _medicineCache = firstData;
+      _medicineCacheTime = now;
+      return firstData;
+    }
 
-      // API may return { items, hasMore } or a plain array
-      if (Array.isArray(data)) {
-        allItems.push(...data);
-        break; // Plain array means no pagination
+    const allItems = [...(firstData.items || [])];
+
+    if (firstData.hasMore && (firstData.items || []).length >= PAGE_SIZE) {
+      // Estimate total pages and fetch remaining in PARALLEL (batches of 5)
+      const totalPages = firstData.totalPages || Math.ceil((firstData.total || 5000) / PAGE_SIZE);
+      const remainingPages = [];
+      for (let p = 2; p <= Math.min(totalPages, 50); p++) remainingPages.push(p);
+
+      // Fetch in parallel batches of 5 pages
+      const BATCH_SIZE = 5;
+      for (let i = 0; i < remainingPages.length; i += BATCH_SIZE) {
+        const batch = remainingPages.slice(i, i + BATCH_SIZE);
+        const results = await Promise.allSettled(
+          batch.map((page) =>
+            fetch(
+              `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1`,
+              { next: { revalidate: 86400 } }
+            ).then((r) => (r.ok ? r.json() : null))
+          )
+        );
+        for (const r of results) {
+          if (r.status === "fulfilled" && r.value) {
+            const items = Array.isArray(r.value) ? r.value : (r.value.items || []);
+            allItems.push(...items);
+          }
+        }
       }
-
-      const items = data.items || [];
-      allItems.push(...items);
-
-      // Stop if no more pages
-      if (!data.hasMore || items.length < PAGE_SIZE) break;
     }
 
     _medicineCache = allItems;
     _medicineCacheTime = now;
     return allItems;
   } catch {
-    return allItems.length > 0 ? allItems : [];
+    return _medicineCache || [];
   }
 }
 
-/** Fetch a single medicine by slug — searches ALL pages until found */
+/** Fetch a single medicine by slug — uses fetchAllMedicines cache for speed */
 export async function fetchMedicineBySlug(slug) {
-  // First check cache for exact match
-  if (_medicineCache && _medicineCache.length > 0) {
-    const cached = _medicineCache.find((m) => slugify(m.name) === slug);
-    if (cached) return cached;
-    // Partial match fallback — if slug is "cetirizine", find "cetirizine-10-mg"
-    const partial = _medicineCache.find((m) => slugify(m.name).startsWith(slug + "-"));
-    if (partial) return partial;
-  }
+  // Load ALL medicines into cache (single call, shared across all pages)
+  const allMeds = await fetchAllMedicines();
 
-  // Search page by page until we find the medicine
-  const PAGE_SIZE = 200;
-  const MAX_PAGES = 50;
-  let partialMatch = null;
+  // Exact match
+  const exact = allMeds.find((m) => slugify(m.name) === slug);
+  if (exact) return exact;
 
-  try {
-    for (let page = 1; page <= MAX_PAGES; page++) {
-      const res = await fetch(
-        `${API_URL}/api/medicines/all?paged=1&page=${page}&limit=${PAGE_SIZE}&catalogFallback=1`,
-        { next: { revalidate: 86400 } }
-      );
-      if (!res.ok) break;
+  // Partial match fallback — if slug is "cetirizine", find "cetirizine-10-mg"
+  const partial = allMeds.find((m) => slugify(m.name).startsWith(slug + "-"));
+  if (partial) return partial;
 
-      const data = await res.json();
-      const items = Array.isArray(data) ? data : (data.items || []);
-      const hasMore = Array.isArray(data) ? false : data.hasMore;
-
-      // Check exact match first
-      const found = items.find((m) => slugify(m.name) === slug);
-      if (found) return found;
-
-      // Track first partial match (slug starts with search term)
-      if (!partialMatch) {
-        partialMatch = items.find((m) => slugify(m.name).startsWith(slug + "-"));
-      }
-
-      // Stop if no more pages
-      if (!hasMore || items.length < PAGE_SIZE) break;
-    }
-  } catch (err) {
-    console.error("fetchMedicineBySlug error:", err.message);
-  }
-
-  // Return partial match if no exact match found
-  return partialMatch || null;
+  return null;
 }
 
 /** Fetch alternatives by compositionKey */

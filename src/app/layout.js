@@ -57,6 +57,23 @@ export const metadata = {
     "pharmacy near me delivery",
     "medicine discount online",
     "health advice AI free",
+    "PharmEasy alternative",
+    "1mg alternative",
+    "Netmeds alternative",
+    "best online pharmacy India",
+    "best medicine delivery app India",
+    "GoDavaii vs PharmEasy",
+    "GoDavaii vs 1mg",
+    "free AI doctor consultation",
+    "generic medicine finder India",
+    "medicine price comparison India",
+    "drug interaction checker",
+    "prescription upload app India",
+    "lab report analysis AI",
+    "X-ray analysis AI",
+    "healthcare app India",
+    "multilingual health assistant",
+    "health AI Hindi Tamil Telugu Bengali",
   ],
   robots: {
     index: true,
@@ -200,6 +217,105 @@ export default function RootLayout({ children }) {
                 "@type": "AggregateRating",
                 ratingValue: "4.8",
                 ratingCount: "500",
+              },
+            }),
+          }}
+        />
+
+        {/* SpeakableSpecification — Voice Search Optimization */}
+        <Script
+          id="ld-speakable"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              name: "GoDavaii AI — Your AI Health Assistant in 16 Indian Languages",
+              speakable: {
+                "@type": "SpeakableSpecification",
+                cssSelector: ["h1", "h2", ".speakable", "[data-speakable]"],
+              },
+              url: SITE_URL,
+            }),
+          }}
+        />
+
+        {/* MedicalOrganization schema — Enhanced medical authority */}
+        <Script
+          id="ld-medical-org"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MedicalOrganization",
+              name: "GoDavaii",
+              url: SITE_URL,
+              logo: `${SITE_URL}${OG_IMAGE}`,
+              description:
+                "India's AI-powered healthcare platform providing medicine delivery, AI health assistant in 16 Indian languages, doctor consultations, and lab test booking across 603+ cities.",
+              medicalSpecialty: [
+                "GeneralPractice",
+                "Pharmacy",
+                "Dermatology",
+                "Cardiology",
+                "Endocrinology",
+                "Gastroenterology",
+                "Gynecology",
+                "Neurology",
+                "Ophthalmology",
+                "Orthopedics",
+                "Pediatrics",
+                "Psychiatry",
+                "Pulmonology",
+              ],
+              areaServed: {
+                "@type": "Country",
+                name: "India",
+              },
+              availableService: [
+                {
+                  "@type": "MedicalTherapy",
+                  name: "AI Health Consultation",
+                  description: "Free AI-powered health consultation in 16 Indian languages",
+                },
+                {
+                  "@type": "MedicalTherapy",
+                  name: "Online Medicine Delivery",
+                  description: "30-minute medicine delivery from verified local pharmacies across 603+ Indian cities",
+                },
+                {
+                  "@type": "MedicalTherapy",
+                  name: "Doctor Video Consultation",
+                  description: "Video and phone consultations with verified doctors",
+                },
+                {
+                  "@type": "MedicalTherapy",
+                  name: "Lab Test Booking",
+                  description: "Online lab test booking with home sample collection",
+                },
+              ],
+              hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "GoDavaii Healthcare Services",
+                itemListElement: [
+                  {
+                    "@type": "OfferCatalog",
+                    name: "Medicines",
+                    numberOfItems: "4000+",
+                  },
+                  {
+                    "@type": "OfferCatalog",
+                    name: "Health Condition Guides",
+                    numberOfItems: "112+",
+                  },
+                  {
+                    "@type": "OfferCatalog",
+                    name: "Health Articles",
+                    numberOfItems: "1000+",
+                  },
+                ],
               },
             }),
           }}

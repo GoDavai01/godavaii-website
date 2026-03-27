@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAllArticles, getArticleBySlug } from "@/data/blogIndex";
 import { Sparkles, ArrowLeft, ArrowRight, Clock, Tag, BookOpen, Share2 } from "lucide-react";
 import FAQAccordion from "@/components/FAQAccordion";
+import MedicalReviewBadge from "@/components/MedicalReviewBadge";
 
 export const revalidate = 86400;
 export const dynamicParams = true;
@@ -78,6 +79,10 @@ export default async function BlogArticlePage({ params }) {
     mainEntityOfPage: `https://www.godavaii.com/blog/${slug}`,
     articleSection: article.category,
     keywords: (article.tags || []).join(", "),
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", "[data-speakable]"],
+    },
   };
 
   const faqSchema = article.faqs && article.faqs.length > 0 ? {
@@ -149,7 +154,8 @@ export default async function BlogArticlePage({ params }) {
             <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
               {article.title}
             </h1>
-            <p className="text-white/50 text-lg leading-relaxed">{article.metaDescription}</p>
+            <p className="text-white/50 text-lg leading-relaxed mb-4">{article.metaDescription}</p>
+            <MedicalReviewBadge />
             {article.tags && article.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-4">
                 {article.tags.map((tag) => (
